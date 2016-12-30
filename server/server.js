@@ -14,13 +14,25 @@ app.set('views', __dirname + '/views');
 
 app.use(express.static(__dirname + '/public'));
 
+app.use(function(req, res, next){
+	res.locals.showTests = app.get('env') !== 'production' &&
+						req.query.test === '1';
+	next();
+});
+
 app.get('/', function(req, res) {
 	res.render('home');
 });
 app.get('/about', function(req,res){
 	// var randomFortune = 
 		// fortuneCookies[Math.floor(Math.random() * fortuneCookies.length)];
-	res.render('about', { fortune: fortune.getFortune() });
+	res.render('about', { fortune: fortune.getFortune(), pageTestScript:  './qa/tests-about.js'});
+});
+app.get('/life', function(req,res){
+	res.render('life/life');
+});
+app.get('/life/28', function(req,res){
+	res.render('life/28');
 });
 
 // 404 catch-all handler (middleware)
