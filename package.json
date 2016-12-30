@@ -1,0 +1,27 @@
+{
+  "name": "pengyy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pengyy"
+  ],
+  "author": "pengyy",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.21.0",
+    "babel-polyfill": "^6.20.0",
+    "express": "^4.14.0",
+    "express3-handlebars": "^0.5.2",
+    "minimatch": "^3.0.2"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-3": "^6.17.0",
+    "babel-register": "^6.18.0"
+  }
+}
