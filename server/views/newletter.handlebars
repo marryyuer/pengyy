@@ -1,0 +1,21 @@
+<h2>sign up for pengyy's new member</h2>
+<form class="form-horizontal" role="form" action="/process?form=newletter" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrf}}">
+    <div class="form-group">
+        <label for="fieldname" class="col-sm-2-control-label">Name</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="fieldname" name="name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="fieldemail" class="col-sm-2-control-label">Email</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="fieldemail" required name="email">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-4">
+            <button type="submit" class="btn btn-default">Register</button>
+        </div>
+    </div>
+</form>

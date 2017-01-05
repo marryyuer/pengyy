@@ -41,6 +41,8 @@ app.use(function(req, res, next){
 	next();
 });
 
+app.use(require('body-parser')());
+
 app.get('/', function(req, res) {
 	res.render('home');
 });
@@ -48,6 +50,19 @@ app.get('/about', function(req,res){
 	// var randomFortune = 
 		// fortuneCookies[Math.floor(Math.random() * fortuneCookies.length)];
 	res.render('about', { fortune: fortune.getFortune(), pageTestScript:  './qa/tests-about.js'});
+});
+app.get('/newletter', function(req, res) {
+	res.render('newletter', { csrf: 'CSRF token goes here!'});
+});
+app.post('/process', function(req, res) {
+	console.log('Form (from querystring):' + req.query.form);
+	console.log('CSRF (from Hidden):' + req.body._csrf);
+	console.log('Name (from visible field):' + req.body.name);
+	console.log('Email (from visible field):' + req.body.email);
+	res.redirect(303, '/thank-you');
+});
+app.get('/thank-you', function(req, res) {
+	res.render('thank-you');
 });
 app.get('/life', function(req,res){
 	res.render('life/life');
