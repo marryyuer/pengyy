@@ -1,11 +1,15 @@
 var express = require('express');
 var path = require('path');
 var fortune = require('./lib/fortune');
+var weather = require('./lib/weather');
 var app = express();
 
 // set up handlebars view engine
+// var handlebars = require('express3-handlebars')
+// 	.create({ defaultLayout: 'main', extname: '.hbs' });
 var handlebars = require('express3-handlebars')
-	.create({ defaultLayout: 'main', extname: '.hbs' });
+	.create({ defaultLayout: 'main'});
+
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
@@ -17,6 +21,14 @@ app.use(express.static(__dirname + '/public'));
 app.use(function(req, res, next){
 	res.locals.showTests = app.get('env') !== 'production' &&
 						req.query.test === '1';
+	next();
+});
+
+app.use(function(req, res, next){
+	if (!res.locals.partials) {
+		res.locals.partials = {};
+	}
+	res.locals.partials = weather.getWeatherData();
 	next();
 });
 
