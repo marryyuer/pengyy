@@ -10,12 +10,14 @@ var app = express();
 var handlebars = require('express3-handlebars')
 	.create({
 		defaultLayout: 'main',
-		section: function(name, options) {
-			if(!this._section) {
-				this._section = {};
+		helpers: {
+			section: function(name, options) {
+				if(!this._sections) {
+					this._sections = {};
+				}
+				this._sections[name] = options.fn(this);
+				return null;
 			}
-			this._section[name] = options.fn(this);
-			return null;
 		}
 });
 
@@ -59,7 +61,12 @@ app.post('/process', function(req, res) {
 	console.log('CSRF (from Hidden):' + req.body._csrf);
 	console.log('Name (from visible field):' + req.body.name);
 	console.log('Email (from visible field):' + req.body.email);
-	res.redirect(303, '/thank-you');
+	if(req.xhr || req.accepts('json,html') === 'json') {
+		res.send({success: true});
+	}
+	else {
+		res.redirect(303, '/thank-you');
+	}
 });
 app.get('/thank-you', function(req, res) {
 	res.render('thank-you');
