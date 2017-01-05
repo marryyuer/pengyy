@@ -8,7 +8,16 @@ var app = express();
 // var handlebars = require('express3-handlebars')
 // 	.create({ defaultLayout: 'main', extname: '.hbs' });
 var handlebars = require('express3-handlebars')
-	.create({ defaultLayout: 'main'});
+	.create({
+		defaultLayout: 'main',
+		section: function(name, options) {
+			if(!this._section) {
+				this._section = {};
+			}
+			this._section[name] = options.fn(this);
+			return null;
+		}
+});
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -28,7 +37,7 @@ app.use(function(req, res, next){
 	if (!res.locals.partials) {
 		res.locals.partials = {};
 	}
-	res.locals.partials = weather.getWeatherData();
+	res.locals.partials.weather = weather.getWeatherData();
 	next();
 });
 

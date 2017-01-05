@@ -18,6 +18,6 @@ exports.getWeatherData = function() {
             iconUrl: 'http://icons-ak.wxug.com/i/c/k/rain.gif',
             weather: 'Rain',
             temp: '52.1 F (10.3 C)'
-        },]
+        }]
     };
-}
+};

@@ -6,7 +6,7 @@
     {{#if showTests}}
     <link rel="stylesheet" href="/vendor/mocha.css">
     {{/if}}
-    <script src="//code.jquery.com/jquery-2.0.2.min.js"></script>
+    <script src="/lib/jquery.js"></script>
     {{#if showTests}}
     <div id="mocha"></div>
     <script src="/vendor/mocha.js"></script>
@@ -21,12 +21,18 @@
     {{/if}}
     <script>mocha.run();</script>
     {{/if}}
+
+    {{{_sections.head}}}
 </head>
 
 <body>
-    <header>
+    {{!--<header>
         <img src="/img/flower.png" alt="Pengyy Travel Logo">
-    </header>
-    {{{body}}}
+    </header>--}}
+    <div style="background-image: url('/img/background.jpg');background-repeat: no-repeat;width: 100%;height: 100%;">
+        {{{body}}}
+        <script src="/lib/jquery.js"></script>
+        {{{_sections.jquery}}}
+    </div>
 </body>
 </html>
