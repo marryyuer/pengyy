@@ -1,4 +1,4 @@
-<div class="formContainer">
+{{!--<div class="formContainer">
     <h2>sign up for pengyy's new member</h2>
     <form class="form-horizontal newletterForm" role="form" action="/process?form=newletter" method="POST">
         <input type="hidden" name="_csrf" value="{{csrf}}">
@@ -20,8 +20,33 @@
             </div>
         </div>
     </form>
+</div>--}}
+<div class="formContainer">
+    <form class="form-horizontal newsletterForm" role="form" 
+            action="/newletter" method="POST">
+        <div class="form-group">
+            <label for="fieldName" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" 
+                id="fieldName" name="name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="fieldEmail" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-4">
+                <input type="email" class="form-control" required 
+                    id="fieldEmail" name="email">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-4">
+                <button type="submit" class="btn btn-default">Register</button>
+            </div>
+        </div>
+    </form>
 </div>
-{{#section 'jquery'}}
+
+{{!--{{#section 'jquery'}}
     <script>
         $(document).ready(function() {
             $('.newletterForm').on('submit', function(evt) {
@@ -46,4 +71,4 @@
             });
         });
     </script>
-{{/section}}
+{{/section}}--}}

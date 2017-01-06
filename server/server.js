@@ -2,9 +2,13 @@ var express = require('express');
 var path = require('path');
 var formidable = require('formidable');
 var jqupload = require('jquery-file-upload-middleware');
+var credentials = require('./credential');
 var fortune = require('./lib/fortune');
 var weather = require('./lib/weather');
 var app = express();
+
+// regexp for email
+var VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
 // set up handlebars view engine
 // var handlebars = require('express3-handlebars')
@@ -30,10 +34,11 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 
 app.use(express.static(__dirname + '/public'));
+app.use(require('cookie-parser')(credentials.cookieSecret));
+app.use(require('express-session')());
 
 app.use(function(req, res, next){
-	res.locals.showTests = app.get('env') !== 'production' &&
-						req.query.test === '1';
+	res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1';
 	next();
 });
 
@@ -45,19 +50,23 @@ app.use(function(req, res, next){
 	next();
 });
 
+app.use(function(req, res, next) {
+	res.locals.flash = req.session.flash;
+	delete req.session.flash;
+	next();
+});
+
 app.use(require('body-parser')());
 
 app.get('/', function(req, res) {
 	res.render('home');
 });
 app.get('/about', function(req,res){
-	// var randomFortune = 
-		// fortuneCookies[Math.floor(Math.random() * fortuneCookies.length)];
 	res.render('about', { fortune: fortune.getFortune(), pageTestScript:  './qa/tests-about.js'});
 });
 // form data submit
 app.get('/newletter', function(req, res) {
-	res.render('newletter', { csrf: 'CSRF token goes here!'});
+	res.render('newletter/newletter', { csrf: 'CSRF token goes here!'});
 });
 app.post('/process', function(req, res) {
 	console.log('Form (from querystring):' + req.query.form);
@@ -70,6 +79,47 @@ app.post('/process', function(req, res) {
 	else {
 		res.redirect(303, '/thank-you');
 	}
+});
+
+// for now, we're mocking NewsletterSignup:
+function NewsletterSignup(){
+}
+NewsletterSignup.prototype.save = function(cb){
+	cb();
+};
+
+app.post('/newletter', function(req, res){
+	var name = req.body.name || '', email = req.body.email || ''; // 输入验证
+	if(!email.match(VALID_EMAIL_REGEX)) {
+		if(req.xhr) return res.json({ error: 'Invalid name email address.' });
+		req.session.flash = {
+			type: 'danger',
+			intro: 'Validation error!',
+			message: 'The email address you entered was not valid.'
+		};
+		return res.redirect(303, '/newletter/archive');
+	}
+	new NewsletterSignup({ name: name, email: email }).save(function(err){
+		if(err) {
+			if(req.xhr) return res.json({ error: 'Database error.' });
+			req.session.flash = {
+				type: 'danger',
+				intro: 'Database error!',
+				message: 'There was a database error; please try again later.',
+			};
+			return res.redirect(303, '/archive');
+		}
+		if(req.xhr) return res.json({ success: true });
+		req.session.flash = {
+			type: 'success',
+			intro: 'Thank you!',
+			message: 'You have now been signed up for the newsletter.'
+		};
+		return res.redirect(303, '/archive');
+	});
+});
+app.get('/archive', function(req, res) {
+	res.render('newletter/archive');
 });
 app.get('/thank-you', function(req, res) {
 	res.render('thank-you');
