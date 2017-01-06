@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var formidable = require('formidable');
 var fortune = require('./lib/fortune');
 var weather = require('./lib/weather');
 var app = express();
@@ -53,6 +54,7 @@ app.get('/about', function(req,res){
 		// fortuneCookies[Math.floor(Math.random() * fortuneCookies.length)];
 	res.render('about', { fortune: fortune.getFortune(), pageTestScript:  './qa/tests-about.js'});
 });
+// form data submit
 app.get('/newletter', function(req, res) {
 	res.render('newletter', { csrf: 'CSRF token goes here!'});
 });
@@ -71,6 +73,23 @@ app.post('/process', function(req, res) {
 app.get('/thank-you', function(req, res) {
 	res.render('thank-you');
 });
+// file upload
+app.get('/contest/album', function(req, res) {
+	var now = new Date();
+	res.render('contest/album', {year: now.getFullYear(), month: now.getMonth()});
+});
+app.post('/contest/album/:year/:month', function(req, res) {
+	var form = new formidable.IncomingForm();
+	form.parse(req, function(err, fields, files) {
+		if(err) return res.redirect(303, '/error');
+		console.log('received fields:');
+		console.log(fields);
+		console.log('received files:');
+		console.log(files);
+		res.redirect(303, '/thank-you');
+	});
+});
+
 app.get('/life', function(req,res){
 	res.render('life/life');
 });
