@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var formidable = require('formidable');
+var jqupload = require('jquery-file-upload-middleware');
 var fortune = require('./lib/fortune');
 var weather = require('./lib/weather');
 var app = express();
@@ -89,7 +90,22 @@ app.post('/contest/album/:year/:month', function(req, res) {
 		res.redirect(303, '/thank-you');
 	});
 });
-
+// jquery file upload
+app.get('/contest/album-jquery', function(req, res) {
+	var now = new Date();
+	res.render('contest/album-jquery', {year: now.getFullYear(), month: now.getMonth()});
+});
+app.use('/upload', function(req, res, next) {
+	var now = new Date();
+	jqupload.fileHandler({
+		uploadDir: function() {
+			return __dirname + '/public/uploads/' + now;
+		},
+		uploadUrl: function() {
+			return '/uploads/' + now;
+		}
+	})(req, res, next);
+});
 app.get('/life', function(req,res){
 	res.render('life/life');
 });
