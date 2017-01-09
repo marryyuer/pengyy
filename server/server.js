@@ -97,7 +97,7 @@ app.post('/newletter', function(req, res){
 			intro: 'Validation error!',
 			message: 'The email address you entered was not valid.'
 		};
-		return res.redirect(303, '/newletter/archive');
+		return res.redirect(303, '/archive');
 	}
 	new NewsletterSignup({ name: name, email: email }).save(function(err){
 		if(err) {
