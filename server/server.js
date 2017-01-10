@@ -27,6 +27,26 @@ var handlebars = require('express3-handlebars')
 		}
 });
 
+var nodemailer = require('nodemailer');
+var mailTransport = nodemailer.createTransport({
+	host: 'smtp.gmail.com',
+	port: '465',
+	secure: false,
+	auth: {
+		user: 'mar664150686@gmail.com',
+		pass: 'baibing6641'
+	}
+});
+
+mailTransport.sendMail({
+	from: 'pengyy',
+	to: 'pengyy@lzt.com.cn',
+	subject: 'I am learning to send an email.',
+	text: 'hello my friend!'
+}, function(err) {
+	if(err) console.error('can not send mail' + err);
+});
+
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 

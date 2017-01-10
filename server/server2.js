@@ -10,7 +10,7 @@ app.get('/a', function(req, res, next) {
     res.send('a');
 });
 
-app.get('/a', function(req, res, next) {
+app.use('/a', function(req, res, next) {
     console.log('Never run here.');
 });
 
@@ -24,12 +24,12 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get('/b', function(req, res, next) {
+app.use('/b', function(req, res, next) {
     console.log('b: there is an error.');
     throw new Error('b: there is an error.');
 });
 
-app.get('/b', function(err, req, res, next) {
+app.use('/b', function(err, req, res, next) {
     console.log('b: error detected.');
     next(err);
 });
@@ -39,7 +39,7 @@ app.get('/c', function(err, req) {
     throw new Error('c: error happened');
 });
 
-app.get('/c', function(err, req, res, next) {
+app.use('/c', function(err, req, res, next) {
     console.log('c: error detected!');
     next();
 });
