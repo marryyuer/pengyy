@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var http = require('http');
 var formidable = require('formidable');
 var jqupload = require('jquery-file-upload-middleware');
 var credentials = require('./credential');
@@ -27,8 +28,16 @@ var handlebars = require('express3-handlebars')
 		}
 });
 
-var emailService = require('./email')(credentials);
-emailService.sendEmail('664150686@qq.com', 'test', 'thanks for testing with me!');
+app.use(function(req, res, next) {
+	var cluster = require('cluster');
+	if (cluster.isWorker) {
+		console.log('Worker %d received request', cluster.worker.id);
+	}
+	next();
+});
+
+// var emailService = require('./email')(credentials);
+// emailService.sendEmail('664150686@qq.com', 'test123', 'thanks for testing with me!');
 
 switch(app.get('env')) {
 	case 'development':
@@ -326,8 +335,24 @@ app.use(function(err, req, res, next){
 	res.render('500');
 });
 
-app.listen(app.get('port'), function(){
-  console.log( 'Express started in ' + app.get('env') + 
-	' mode on http://localhost:' + 
-    app.get('port') + '; press Ctrl-C to terminate.' );
-});
+// app.listen(app.get('port'), function(){
+//   console.log( 'Express started in ' + app.get('env') + 
+// 	' mode on http://localhost:' + 
+//     app.get('port') + '; press Ctrl-C to terminate.' );
+// });
+
+function startServer() {
+	http.createServer(app).listen(app.get('port'), function() {
+		console.log('Express started in ' + app.get('env') +
+		' mode on http://localhost:' + app.get('port') + 
+		'; Press Ctrl + C to terminate.');
+	});
+}
+
+if(require.main === module) {
+	// start server directly.
+	startServer();
+} else {
+	// required by other module.
+	module.exports = startServer;
+}
