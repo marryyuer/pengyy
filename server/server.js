@@ -27,25 +27,19 @@ var handlebars = require('express3-handlebars')
 		}
 });
 
-var nodemailer = require('nodemailer');
-var mailTransport = nodemailer.createTransport({
-	host: 'smtp.163.com',
-	port: 465,
-	secure: true,
-	auth: {
-		user: credentials.gmail.user,
-		pass: credentials.gmail.password
-	}
-});
+var emailService = require('./email')(credentials);
+emailService.sendEmail('664150686@qq.com', 'test', 'thanks for testing with me!');
 
-mailTransport.sendMail({
-	from: 'marrypen@163.com',
-	to: 'marrypen@163.com, pengyy <664150686@qq.com>',
-	subject: 'I am learning to send an email.',
-	text: 'hello my friend!'
-}, function(err) {
-	if(err) console.error('can not send mail' + err);
-});
+switch(app.get('env')) {
+	case 'development':
+		app.use(require('morgan')('dev'));
+		break;
+	case 'production':
+		app.use(require('express-logger')({
+			path: __dirname + '/log/request.log'
+		}));
+		break;
+}
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -189,6 +183,136 @@ app.get('/life/28', function(req,res){
 	res.render('life/28');
 });
 
+// mocking product database
+function Product(){
+}
+Product.find = function(conditions, fields, options, cb){
+	if(typeof conditions==='function') {
+		cb = conditions;
+		conditions = {};
+		fields = null;
+		options = {};
+	} else if(typeof fields==='function') {
+		cb = fields;
+		fields = null;
+		options = {};
+	} else if(typeof options==='function') {
+		cb = options;
+		options = {};
+	}
+	var products = [
+		{
+			name: 'Hood River Tour',
+			slug: 'hood-river',
+			category: 'tour',
+			maximumGuests: 15,
+			sku: 723,
+		},
+		{
+			name: 'Oregon Coast Tour',
+			slug: 'oregon-coast',
+			category: 'tour',
+			maximumGuests: 10,
+			sku: 446,
+		},
+		{
+			name: 'Rock Climbing in Bend',
+			slug: 'rock-climbing/bend',
+			category: 'adventure',
+			requiresWaiver: true,
+			maximumGuests: 4,
+			sku: 944,
+		}
+	];
+	cb(null, products.filter(function(p) {
+		if(conditions.category && p.category!==conditions.category) return false;
+		if(conditions.slug && p.slug!==conditions.slug) return false;
+		if(isFinite(conditions.sku) && p.sku!==Number(conditions.sku)) return false;
+		return true;
+	}));
+};
+Product.findOne = function(conditions, fields, options, cb){
+	if(typeof conditions==='function') {
+		cb = conditions;
+		conditions = {};
+		fields = null;
+		options = {};
+	} else if(typeof fields==='function') {
+		cb = fields;
+		fields = null;
+		options = {};
+	} else if(typeof options==='function') {
+		cb = options;
+		options = {};
+	}
+	Product.find(conditions, fields, options, function(err, products){
+		cb(err, products && products.length ? products[0] : null);
+	});
+};
+
+var cartValidation = require('./lib/cartValidation.js');
+
+app.use(cartValidation.checkWaivers);
+app.use(cartValidation.checkGuestCounts);
+
+app.post('/cart/add', function(req, res, next){
+	var cart = req.session.cart || (req.session.cart = { items: [] });
+	Product.findOne({ sku: req.body.sku }, function(err, product){
+		if(err) return next(err);
+		if(!product) return next(new Error('Unknown product SKU: ' + req.body.sku));
+		cart.items.push({
+			product: product,
+			guests: req.body.guests || 0,
+		});
+		res.redirect(303, '/cart');
+	});
+});
+app.get('/cart', function(req, res, next){
+	var cart = req.session.cart;
+	if(!cart) next();
+	res.render('cart/cart', { cart: cart });
+});
+app.get('/cart/checkout', function(req, res, next) {
+	var cart = req.session.cart;
+	if(!cart) next();
+	res.render('cart/checkout');
+});
+// app.post('/cart/checkout', function(req, res, next) {
+// 	var cart = req.session.cart;
+// 	if(!cart) next(new Error('cart does not exist!'));
+
+// 	var name = req.body.name || '';
+// 	var email = req.body.email || '';
+// 	if(!email.match(VALID_EMAIL_REGEX)) {
+// 		return next(new Error('Invalid email address!'));
+// 	}
+
+// 	cart.number = Math.random().toString().replace(/^0\.0*/, '');
+// 	cart.billing = {
+// 		name: name,
+// 		email: email,
+// 	};
+
+// 	res.render('cart/thank-you', {
+// 		layout: null,
+// 		cart: cart
+// 	}, function(err, html) {
+// 		if(err) console.log('error in email template!');
+// 		mailTransport.sendMail({
+// 			from: 'Pengyy: marrypen@163.com',
+// 			to: 'marrypen@163.com',
+// 			subject: 'thank you for applying Pengyy Party.',
+// 			html: html,
+// 			generateTextHtml: true
+// 		}, function(err) {
+// 			if(err) {
+// 				console.error('Unable to send confirmation:' + err.stack);
+// 			}
+// 		});
+// 	});
+// 	res.render('cart/cart-thank-you', {cart: cart});
+// });
+
 // 404 catch-all handler (middleware)
 app.use(function(req, res, next){
 	res.status(404);
@@ -203,6 +327,7 @@ app.use(function(err, req, res, next){
 });
 
 app.listen(app.get('port'), function(){
-  console.log( 'Express started on http://localhost:' + 
+  console.log( 'Express started in ' + app.get('env') + 
+	' mode on http://localhost:' + 
     app.get('port') + '; press Ctrl-C to terminate.' );
 });
