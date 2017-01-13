@@ -29,15 +29,55 @@ var handlebars = require('express3-handlebars')
 });
 
 app.use(function(req, res, next) {
+	var domain = require('domain').create();
+	domain.on('error', function(err) {
+		console.error('Domain error caught¥n', err.stack);
+		try {
+			// shutdown after 5 seconds
+			setTimeout(function() {
+				console.error('Failsafe shutdown.');
+				process.exit();
+			}, 5000);
+
+			// disconnect form cluster
+			var worker = require('cluster').worker;
+			if(worker) worker.disconnect();
+
+			// close server
+			server.close();
+
+			try {
+				// try express router
+				next(err);
+			}
+			catch(err) {
+				// if express error router failed, try to response with normal text information
+				console.error('Express error mechanism fialed.¥n', err.stack);
+				res.statusCode = 505;
+				res.setHeader('content-type', 'text/plain');
+				res.end('Serve error');
+			}
+		}
+		catch(err) {
+			console.error('Unable to send 500 response.¥n', err.stack);
+		}
+	});
+
+	// add req and res to domain
+	domain.add(req);
+	domain.add(res);
+
+	// do next
+	domain.run(next);
+});
+
+app.use(function(req, res, next) {
 	var cluster = require('cluster');
 	if (cluster.isWorker) {
 		console.log('Worker %d received request', cluster.worker.id);
 	}
 	next();
 });
-
-// var emailService = require('./email')(credentials);
-// emailService.sendEmail('664150686@qq.com', 'test123', 'thanks for testing with me!');
 
 switch(app.get('env')) {
 	case 'development':
@@ -50,6 +90,9 @@ switch(app.get('env')) {
 		break;
 }
 
+// var emailService = require('./email')(credentials);
+// emailService.sendEmail('664150686@qq.com', 'test123', 'thanks for testing with me!');
+
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 
@@ -58,12 +101,17 @@ app.set('views', __dirname + '/views');
 
 app.use(express.static(__dirname + '/public'));
 app.use(require('cookie-parser')(credentials.cookieSecret));
-var expressSession = require('express-session');
-app.use(expressSession({
+app.use(require('express-session')({
 	secret: credentials.cookieSecret,
-	resave : true,
+	resave: true,
 	saveUninitialized: true
 }));
+// var expressSession = require('express-session');
+// app.use(expressSession({
+// 	secret: credentials.cookieSecret,
+// 	resave : true,
+// 	saveUninitialized: true
+// }));
 app.use(function(req, res, next){
 	res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1';
 	next();
@@ -286,41 +334,51 @@ app.get('/cart/checkout', function(req, res, next) {
 	if(!cart) next();
 	res.render('cart/checkout');
 });
-// app.post('/cart/checkout', function(req, res, next) {
-// 	var cart = req.session.cart;
-// 	if(!cart) next(new Error('cart does not exist!'));
+app.post('/cart/checkout', function(req, res, next) {
+	var cart = req.session.cart;
+	if(!cart) next(new Error('cart does not exist!'));
 
-// 	var name = req.body.name || '';
-// 	var email = req.body.email || '';
-// 	if(!email.match(VALID_EMAIL_REGEX)) {
-// 		return next(new Error('Invalid email address!'));
-// 	}
+	var name = req.body.name || '';
+	var email = req.body.email || '';
+	if(!email.match(VALID_EMAIL_REGEX)) {
+		return next(new Error('Invalid email address!'));
+	}
 
-// 	cart.number = Math.random().toString().replace(/^0\.0*/, '');
-// 	cart.billing = {
-// 		name: name,
-// 		email: email,
-// 	};
+	cart.number = Math.random().toString().replace(/^0\.0*/, '');
+	cart.billing = {
+		name: name,
+		email: email,
+	};
 
-// 	res.render('cart/thank-you', {
-// 		layout: null,
-// 		cart: cart
-// 	}, function(err, html) {
-// 		if(err) console.log('error in email template!');
-// 		mailTransport.sendMail({
-// 			from: 'Pengyy: marrypen@163.com',
-// 			to: 'marrypen@163.com',
-// 			subject: 'thank you for applying Pengyy Party.',
-// 			html: html,
-// 			generateTextHtml: true
-// 		}, function(err) {
-// 			if(err) {
-// 				console.error('Unable to send confirmation:' + err.stack);
-// 			}
-// 		});
-// 	});
-// 	res.render('cart/cart-thank-you', {cart: cart});
+	res.render('cart/thank-you', {
+		layout: null,
+		cart: cart
+	}, function(err, html) {
+		if(err) console.log('error in email template!');
+		mailTransport.sendMail({
+			from: 'Pengyy: marrypen@163.com',
+			to: 'marrypen@163.com',
+			subject: 'thank you for applying Pengyy Party.',
+			html: html,
+			generateTextHtml: true
+		}, function(err) {
+			if(err) {
+				console.error('Unable to send confirmation:' + err.stack);
+			}
+		});
+	});
+	res.render('cart/cart-thank-you', {cart: cart});
+});
+
+// app.get('/fail', function(req, res, next) {
+// 	throw new Error('Nope!');
 // });
+
+app.get('/epic-fail', function(req, res) {
+	process.nextTick(function() {
+		throw new Error('Kaboom!');
+	});
+});
 
 // 404 catch-all handler (middleware)
 app.use(function(req, res, next){
