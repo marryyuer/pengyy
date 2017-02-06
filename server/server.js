@@ -1,6 +1,15 @@
 var express = require('express');
 var path = require('path');
 var http = require('http');
+var fs = require('fs');
+
+var mongoose = require('mongoose');
+var Member = require('./models/member');
+var opts = {
+	server: {
+		socketOptions: { keepAlive: true }
+	}
+};
 var formidable = require('formidable');
 var jqupload = require('jquery-file-upload-middleware');
 var credentials = require('./credential');
@@ -10,6 +19,40 @@ var app = express();
 
 // regexp for email
 var VALID_EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
+//add initial data to mongoDB
+switch(app.get('env')) {
+	case 'development':
+		mongoose.connect(credentials.mongo.development.connectString, opts);
+		break;
+	case 'production':
+		mongoose.connect(credentials.mongo.production.connectString, opts);
+		break;
+}
+
+Member.find(function(err, members) {
+	if(members.length) return;
+
+	new Member({
+		name: 'Pengyy',
+		sex: 'Boy',
+		description: 'Working in Beijing',
+		age: 29,
+		salary: 14000,
+		available: true,
+		experiences: 6
+	}).save();
+
+	new Member({
+		name: 'YuerBaby',
+		sex: 'Girl',
+		description: 'Living in Beijing',
+		age: 24,
+		salary: 14000,
+		available: false,
+		experiences: 1
+	}).save();
+});
 
 // set up handlebars view engine
 // var handlebars = require('express3-handlebars')
@@ -106,12 +149,16 @@ app.use(require('express-session')({
 	resave: true,
 	saveUninitialized: true
 }));
-// var expressSession = require('express-session');
-// app.use(expressSession({
-// 	secret: credentials.cookieSecret,
-// 	resave : true,
-// 	saveUninitialized: true
-// }));
+
+var dataDir = __dirname + '/data';
+var albumDir = dataDir + '/album';
+fs.existsSync(dataDir) || fs.mkdirSync(dataDir);
+fs.existsSync(albumDir) || fs.mkdirSync(albumDir);
+
+function saveContestAlbum(contestName, email, year, month, photoPath) {
+	// TODO
+}
+
 app.use(function(req, res, next){
 	res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1';
 	next();
@@ -140,6 +187,22 @@ app.get('/', function(req, res) {
 });
 app.get('/about', function(req,res){
 	res.render('about', { fortune: fortune.getFortune(), pageTestScript:  './qa/tests-about.js'});
+});
+app.get('/family/members', function(req, res) {
+	Member.find({ available: true}, function(err, members) {
+		var context = {
+			members: members.map(function(member) {
+				return {
+					name: member.name,
+					description: member.description,
+					age: member.age,
+					sex: member.sex
+				};
+			})
+		};
+		console.log(context);
+		res.render('family/members', context);
+	});
 });
 // form data submit
 app.get('/newletter', function(req, res) {
@@ -210,12 +273,32 @@ app.post('/contest/album/:year/:month', function(req, res) {
 	var form = new formidable.IncomingForm();
 	form.parse(req, function(err, fields, files) {
 		if(err) return res.redirect(303, '/error');
-		console.log('received fields:');
-		console.log(fields);
-		console.log('received files:');
-		console.log(files);
-		res.redirect(303, '/thank-you');
+		if(err) {
+			res.session.flash = {
+				type: 'danger',
+				intro: 'Oops!',
+				message: 'There was an error processing you submission.' + 
+						'Please try again!'
+			};
+			return res.redirect('303', '/contest/album');
+		}
+
+		var photo = files.photo;
+		var dir = albumDir + '/' + Date.now();
+		var path = dir + '/' + photo.name;
+
+		fs.mkdirSync(dir);
+		fs.renameSync(photo.path, dir + '/' + photo.name);
+
+		saveContestAlbum('album', fields.email, req.params.year, req.params.month);
+		req.session.flash= {
+			type: 'success',
+			intro: 'Congretulations!',
+			message: 'You have been entered into the contest.'
+		};
+		return res.redirect(303, '/contest/album/entries');
 	});
+
 });
 // jquery file upload
 app.get('/contest/album-jquery', function(req, res) {
