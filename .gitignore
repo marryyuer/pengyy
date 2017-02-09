@@ -1,8 +1,12 @@
 # ignore packages installed by npm
 node_modules
-.DS_Store
-*.bak
-log
 
 # put any other files you don't want to check in here,
 # such as .DS_Store (OSX), *.bak, etc.
+.DS_Store
+*.bak
+log
+data
+server/credentials.js
+node_modules
+client/angular2/node_modules
