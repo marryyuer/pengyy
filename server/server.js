@@ -5,6 +5,7 @@ var fs = require('fs');
 
 var mongoose = require('mongoose');
 var Member = require('./models/member');
+var InWorkListener = require('./models/inWorkListener');
 var opts = {
 	server: {
 		socketOptions: { keepAlive: true }
@@ -188,6 +189,8 @@ app.get('/', function(req, res) {
 app.get('/about', function(req,res){
 	res.render('about', { fortune: fortune.getFortune(), pageTestScript:  './qa/tests-about.js'});
 });
+
+// show falimy members form mongoDB
 app.get('/family/members', function(req, res) {
 	Member.find({ available: true}, function(err, members) {
 		var context = {
@@ -204,6 +207,36 @@ app.get('/family/members', function(req, res) {
 		res.render('family/members', context);
 	});
 });
+
+// motify me by email
+app.get('/work/notify-me-when-in-work', function(res, req) {
+	res.render('work/notify-me-when-in-work', { date: req.query.date });
+});
+app.post('/work/notify-me-when-in-work', function(res, req) {
+	InWorkListener.update(
+		{ email: req.body.email },
+		{ $push: {date: req.body.date} },
+		{ upsert: true },
+		function(err) {
+			if(err) {
+				console.error(err.stack);
+				req.session.flash = {
+					type: 'danger',
+					intro: 'Oops',
+					message: 'There was an error procssing request.'
+				};
+				return res.redirect(303, '/family/members');
+			}
+			req.session.flash = {
+				type: 'success',
+				intro: 'Thank you.',
+				message: 'You will be notified while I becomes inwork.'
+			};
+			return res.redirect(303, '/falmily/members');
+		}
+	)
+});
+
 // form data submit
 app.get('/newletter', function(req, res) {
 	res.render('newletter/newletter', { csrf: 'CSRF token goes here!'});

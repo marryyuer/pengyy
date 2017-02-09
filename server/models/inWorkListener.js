@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
 var inWorkListenerSchema = mongoose.Schema({
-    email: string,
-    date: Date
+    email: String,
+    date: [Date]
 });
 
 var InworkListener = mongoose.model('InworkListener', inWorkListenerSchema);
