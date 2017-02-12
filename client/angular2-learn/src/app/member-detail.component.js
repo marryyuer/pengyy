@@ -27,13 +27,18 @@ var MemberDetailComponent = (function () {
     MemberDetailComponent.prototype.goBack = function () {
         this.location.back();
     };
+    MemberDetailComponent.prototype.doSave = function () {
+        var _this = this;
+        this.memberService.updateFamilyMember(this.member).then(function () { return _this.goBack(); });
+    };
     return MemberDetailComponent;
 }());
 MemberDetailComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
         selector: 'member-detail',
-        templateUrl: "member-detail.component.html"
+        templateUrl: 'member-detail.component.html',
+        styleUrls: ['member-detail.component.css']
     }),
     __metadata("design:paramtypes", [member_service_1.MemberSerivce,
         router_1.ActivatedRoute,

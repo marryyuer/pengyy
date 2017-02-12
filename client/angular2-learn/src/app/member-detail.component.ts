@@ -9,7 +9,8 @@ import { MemberSerivce } from './service/member.service';
 @Component({
     moduleId: module.id,
     selector: 'member-detail',
-    templateUrl: `member-detail.component.html`
+    templateUrl: 'member-detail.component.html',
+    styleUrls: ['member-detail.component.css']
 })
 export class MemberDetailComponent implements OnInit {
     member: FamilyMember;
@@ -27,5 +28,9 @@ export class MemberDetailComponent implements OnInit {
 
     goBack() {
         this.location.back();
+    }
+
+    doSave() {
+        this.memberService.updateFamilyMember(this.member).then(() => this.goBack());
     }
 }

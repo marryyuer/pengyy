@@ -1,8 +1,9 @@
 <h3>Main Members</h3>
 <div class="grid grid-pad">
-  <div *ngFor="let member of families" class="col-1-4">
+  <!--<div *ngFor="let member of families" class="col-1-4" (click)="">
     <div class="module hero">
       <h4>{{member.name}}</h4>
     </div>
-  </div>
+  </div>-->
+  <a *ngFor="let member of families" [routerLink]="['/member-detail', member.id]" class="col-1-4">{{member.name}}</a>
 </div>

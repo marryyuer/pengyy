@@ -19,7 +19,9 @@ var DashboardComponent = (function () {
     };
     DashboardComponent.prototype.getMemberInfo = function () {
         var _this = this;
-        this.memberService.getFamilyMembers().then(function (members) { return _this.families = members.slice(0, 4); });
+        this.memberService.getFamilyMembers().then(function (members) {
+            _this.families = members.slice(0, 4);
+        });
     };
     return DashboardComponent;
 }());
@@ -27,7 +29,8 @@ DashboardComponent = __decorate([
     core_1.Component({
         moduleId: module.id,
         selector: 'dashboard',
-        templateUrl: "dashboard.component.html"
+        templateUrl: "dashboard.component.html",
+        styleUrls: ['dashboard.component.css']
     }),
     __metadata("design:paramtypes", [member_service_1.MemberSerivce])
 ], DashboardComponent);

@@ -1,0 +1,12 @@
+<h2>My Famile Members</h2>
+<ul class="heroes">
+<li *ngFor="let member of families" (click)="onSelect(member)" [class.selected]="member === selectedMember">
+    <span class="badge">{{member.id}}</span> {{member.name}}
+</li>
+</ul>
+<div *ngIf="selectedMember">
+    <h2>
+        {{selectedMember.name | uppercase}} is my hero
+    </h2>
+    <button (click)="gotoDetail()">View Details</button>
+</div>

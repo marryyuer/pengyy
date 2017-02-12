@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
+// import { RouterModule } from '@angular/router';
+
+import { AppRoutingModule } from './app-routing.module';
+
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './in-memory-data.services';
 
 import { AppComponent } from './app.component';
 import { FamilyMemberComponent} from './member.component';
@@ -14,25 +20,9 @@ import { MemberSerivce } from './service/member.service';
     imports: [
         BrowserModule,
         FormsModule,
-        RouterModule.forRoot([
-            {
-                path: '',
-                redirectTo: 'dashboard',
-                pathMatch: 'full'
-            },
-            {
-                path: 'family-member',
-                component: FamilyMemberComponent
-            },
-            {
-                path: 'dashboard',
-                component: DashboardComponent
-            },
-            {
-                path: 'member-detail/:id',
-                component: MemberDetailComponent
-            }
-        ])
+        HttpModule,
+        InMemoryWebApiModule.forRoot(InMemoryDataService),
+        AppRoutingModule
     ],
     declarations: [AppComponent, FamilyMemberComponent, MemberDetailComponent, DashboardComponent],
     bootstrap: [AppComponent],

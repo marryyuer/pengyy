@@ -8,7 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
 var forms_1 = require("@angular/forms");
-var router_1 = require("@angular/router");
+var http_1 = require("@angular/http");
+// import { RouterModule } from '@angular/router';
+var app_routing_module_1 = require("./app-routing.module");
+var angular_in_memory_web_api_1 = require("angular-in-memory-web-api");
+var in_memory_data_services_1 = require("./in-memory-data.services");
 var app_component_1 = require("./app.component");
 var member_component_1 = require("./member.component");
 var member_detail_component_1 = require("./member-detail.component");
@@ -25,25 +29,9 @@ AppModule = __decorate([
         imports: [
             platform_browser_1.BrowserModule,
             forms_1.FormsModule,
-            router_1.RouterModule.forRoot([
-                {
-                    path: '',
-                    redirectTo: 'dashboard',
-                    pathMatch: 'full'
-                },
-                {
-                    path: 'family-member',
-                    component: member_component_1.FamilyMemberComponent
-                },
-                {
-                    path: 'dashboard',
-                    component: dashboard_component_1.DashboardComponent
-                },
-                {
-                    path: 'member-detail/:id',
-                    component: member_detail_component_1.MemberDetailComponent
-                }
-            ])
+            http_1.HttpModule,
+            angular_in_memory_web_api_1.InMemoryWebApiModule.forRoot(in_memory_data_services_1.InMemoryDataService),
+            app_routing_module_1.AppRoutingModule
         ],
         declarations: [app_component_1.AppComponent, member_component_1.FamilyMemberComponent, member_detail_component_1.MemberDetailComponent, dashboard_component_1.DashboardComponent],
         bootstrap: [app_component_1.AppComponent],

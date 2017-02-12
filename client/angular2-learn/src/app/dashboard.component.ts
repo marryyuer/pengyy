@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { FamilyMember } from './model/family-member';
 import { MemberSerivce } from './service/member.service';
@@ -6,9 +6,10 @@ import { MemberSerivce } from './service/member.service';
 @Component({
     moduleId: module.id,
     selector: 'dashboard',
-    templateUrl: `dashboard.component.html`
+    templateUrl: `dashboard.component.html`,
+    styleUrls: ['dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
     families: FamilyMember[];
 
     constructor(private memberService: MemberSerivce) {}
@@ -18,6 +19,8 @@ export class DashboardComponent {
     }
 
     getMemberInfo() {
-        this.memberService.getFamilyMembers().then(members => this.families = members.slice(0, 4));
+        this.memberService.getFamilyMembers().then(members => {
+            this.families = members.slice(0, 4);
+        });
     }
 }
