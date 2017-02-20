@@ -13,10 +13,13 @@ var http_1 = require("@angular/http");
 var app_routing_module_1 = require("./app-routing.module");
 var angular_in_memory_web_api_1 = require("angular-in-memory-web-api");
 var in_memory_data_services_1 = require("./in-memory-data.services");
+require("./rxjs-extensions");
 var app_component_1 = require("./app.component");
 var member_component_1 = require("./member.component");
 var member_detail_component_1 = require("./member-detail.component");
 var dashboard_component_1 = require("./dashboard.component");
+var member_search_component_1 = require("./member-search.component");
+var new_member_component_1 = require("./new-member.component");
 var member_service_1 = require("./service/member.service");
 var AppModule = (function () {
     function AppModule() {
@@ -33,7 +36,14 @@ AppModule = __decorate([
             angular_in_memory_web_api_1.InMemoryWebApiModule.forRoot(in_memory_data_services_1.InMemoryDataService),
             app_routing_module_1.AppRoutingModule
         ],
-        declarations: [app_component_1.AppComponent, member_component_1.FamilyMemberComponent, member_detail_component_1.MemberDetailComponent, dashboard_component_1.DashboardComponent],
+        declarations: [
+            app_component_1.AppComponent,
+            member_component_1.FamilyMemberComponent,
+            member_detail_component_1.MemberDetailComponent,
+            dashboard_component_1.DashboardComponent,
+            member_search_component_1.MemberSearchComponent,
+            new_member_component_1.NewMemberComponent
+        ],
         bootstrap: [app_component_1.AppComponent],
         providers: [member_service_1.MemberSerivce]
     })

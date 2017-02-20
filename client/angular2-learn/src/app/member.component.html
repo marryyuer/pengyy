@@ -2,11 +2,19 @@
 <ul class="heroes">
 <li *ngFor="let member of families" (click)="onSelect(member)" [class.selected]="member === selectedMember">
     <span class="badge">{{member.id}}</span> {{member.name}}
+    <ng-content select="member.id"></ng-content>
+    <button class="delete" (click)="doDelete(member); $event.stopPropagation()">x</button>
 </li>
 </ul>
+<div>
+    <label>Hero name:</label> <input #heroName />
+    <button (click)="doAdd(heroName.value); heroName.value=''">
+        Add
+    </button>
+</div>
 <div *ngIf="selectedMember">
     <h2>
-        {{selectedMember.name | uppercase}} is my hero
+        {{selectedMember.name | uppercase}} is my family.
     </h2>
     <button (click)="gotoDetail()">View Details</button>
 </div>

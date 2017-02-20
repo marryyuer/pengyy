@@ -22,10 +22,31 @@ var FamilyMemberComponent = (function () {
     };
     FamilyMemberComponent.prototype.getMemberInfo = function () {
         var _this = this;
-        this.memberService.getFamilyMembersSlowly().then(function (members) { return _this.families = members; });
+        this.memberService.getFamilyMembers().then(function (members) { return _this.families = members; });
     };
     FamilyMemberComponent.prototype.onSelect = function (member) {
         this.selectedMember = member;
+    };
+    FamilyMemberComponent.prototype.doAdd = function (name) {
+        var _this = this;
+        name = name.trim();
+        if (!name) {
+            return;
+        }
+        this.memberService.addFamilyMember(name).then(function (member) {
+            _this.families.push(member);
+            _this.selectedMember = null;
+        });
+    };
+    FamilyMemberComponent.prototype.doDelete = function (delMember) {
+        var _this = this;
+        this.memberService.deleteFamilyMember(delMember).then(function () {
+            _this.families = _this.families.filter(function (member) { return member !== delMember; });
+            if (_this.selectedMember === delMember) {
+                _this.selectedMember = null;
+            }
+            ;
+        });
     };
     FamilyMemberComponent.prototype.gotoDetail = function () {
         this.router.navigate(['/member-detail', this.selectedMember.id]);

@@ -14,20 +14,35 @@ export class FamilyMemberComponent implements OnInit {
     selectedMember: FamilyMember;
     families: FamilyMember[];
     constructor(private memberService: MemberSerivce,
-                private router: Router) {
-
-    }
+                private router: Router) {}
 
     ngOnInit() {
         this.getMemberInfo();
     }
 
     getMemberInfo() {
-        this.memberService.getFamilyMembersSlowly().then(members => this.families = members);
+        this.memberService.getFamilyMembers().then(members => this.families = members);
     }
 
     onSelect(member: FamilyMember) {
         this.selectedMember = member;
+    }
+
+    doAdd(name: string) {
+        name = name.trim();
+        if (!name) { return; }
+
+        this.memberService.addFamilyMember(name).then(member => {
+            this.families.push(member);
+            this.selectedMember = null;
+        });
+    }
+
+    doDelete(delMember: FamilyMember) {
+        this.memberService.deleteFamilyMember(delMember).then(() => {
+            this.families = this.families.filter(member => member !== delMember);
+            if (this.selectedMember === delMember) { this.selectedMember = null; };
+        });
     }
 
     gotoDetail() {

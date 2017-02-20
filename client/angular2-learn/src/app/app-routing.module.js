@@ -10,6 +10,7 @@ var router_1 = require("@angular/router");
 var dashboard_component_1 = require("./dashboard.component");
 var member_component_1 = require("./member.component");
 var member_detail_component_1 = require("./member-detail.component");
+var new_member_component_1 = require("./new-member.component");
 var routes = [
     {
         path: '',
@@ -27,6 +28,10 @@ var routes = [
     {
         path: 'dashboard',
         component: dashboard_component_1.DashboardComponent
+    },
+    {
+        path: 'new-member',
+        component: new_member_component_1.NewMemberComponent
     }
 ];
 var AppRoutingModule = (function () {

@@ -15,8 +15,11 @@ var MemberSerivce = (function () {
     function MemberSerivce(http) {
         this.http = http;
     }
+    MemberSerivce.prototype.searchMember = function (name) {
+        return this.http.get('app/families?name=' + name, { headers: new http_1.Headers({ 'Content-type': 'application/json' }) })
+            .map(function (res) { return res.json().data; });
+    };
     MemberSerivce.prototype.getFamilyMembers = function () {
-        // return Promise.resolve(Families);
         return this.http.get('app/families')
             .toPromise()
             .then(function (response) { return response.json().data; })
@@ -32,10 +35,22 @@ var MemberSerivce = (function () {
         return this.getFamilyMembers().then(function (members) { return members.find(function (member) { return member.id === id; }); });
     };
     MemberSerivce.prototype.updateFamilyMember = function (member) {
-        var updUrl = 'app/families/${member.id}';
+        var updUrl = 'app/families/' + member.id;
         return this.http.put(updUrl, JSON.stringify(member), { headers: new http_1.Headers({ 'Content-Type': 'application/json' }) })
             .toPromise()
             .then(function () { return member; })
+            .catch(this.handleError);
+    };
+    MemberSerivce.prototype.addFamilyMember = function (memberName) {
+        return this.http.post('app/families', JSON.stringify({ name: memberName, address: 'futrue' }), { headers: new http_1.Headers({ 'Content-Type': 'application/json' }) })
+            .toPromise()
+            .then(function (response) { return response.json().data; })
+            .catch(this.handleError);
+    };
+    MemberSerivce.prototype.deleteFamilyMember = function (member) {
+        return this.http.delete('app/families/' + member.id, { headers: new http_1.Headers({ 'Content- Type': 'application/json' }) })
+            .toPromise()
+            .then(function () { return null; })
             .catch(this.handleError);
     };
     MemberSerivce.prototype.handleError = function (error) {

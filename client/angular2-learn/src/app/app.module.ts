@@ -9,10 +9,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.services';
 
+import './rxjs-extensions';
+
 import { AppComponent } from './app.component';
 import { FamilyMemberComponent} from './member.component';
 import { MemberDetailComponent } from './member-detail.component';
 import { DashboardComponent } from './dashboard.component';
+import { MemberSearchComponent } from './member-search.component';
+import { NewMemberComponent } from './new-member.component';
 import { MemberSerivce } from './service/member.service';
 
 @NgModule({
@@ -24,7 +28,14 @@ import { MemberSerivce } from './service/member.service';
         InMemoryWebApiModule.forRoot(InMemoryDataService),
         AppRoutingModule
     ],
-    declarations: [AppComponent, FamilyMemberComponent, MemberDetailComponent, DashboardComponent],
+    declarations: [
+        AppComponent,
+        FamilyMemberComponent,
+        MemberDetailComponent,
+        DashboardComponent,
+        MemberSearchComponent,
+        NewMemberComponent
+    ],
     bootstrap: [AppComponent],
     providers: [MemberSerivce]
 })

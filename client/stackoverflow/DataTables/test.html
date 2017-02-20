@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS TIPS</title>
+</head>
+<body ng-controller="MyController">
+<div>{{message}}</div>
+<button ng-click="onclick()">ストップ</button>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+<script>
+angular.module('myApp', [])
+  .controller('MyController',
+  ['$scope', '$interval', function($scope, $interval) {
+    // 11000ミリ秒単位に処理を実行
+    var t = $interval(function() {
+      $scope.message = '現在時刻：' + (new Date()).toLocaleTimeString();
+    }, 1000);
+
+    // 2［ストップ］ボタンでタイマー処理を中止
+    $scope.onclick = function() {
+      $interval.cancel(t);
+    };
+  }]);
+</script>
+</body>
+</html>
