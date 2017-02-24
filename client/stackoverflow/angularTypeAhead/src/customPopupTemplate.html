@@ -1,0 +1,25 @@
+<div class="custom-popup-wrapper" ng-style="{top: position().top+'px',
+          left: position().left+'px'}" style="display: block;" ng-show="isOpen() && !moveInProgress" aria-hidden="{{!isOpen()}}">
+    <div class="customDropdown">
+        <div class="row" style='margin:0;'>
+            <div class="dropdownHead" style='width:100%;'>
+                <div class="col-sm-3">
+                    Country name
+                </div>
+                <div class="col-sm-3">
+                    Capital
+                </div>
+            </div>
+        </div>
+        <div ng-repeat="match in matches">
+            <div class="row dropdown-row" ng-mouseenter="selectActive($index)" ng- \ click="selectMatch($index)" >
+                <div class="col-sm-3">
+                    {{match.model.name}}
+                </div>
+                <div class="col-sm-3">
+                    {{match.model.capital}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var member_service_1 = require("./service/member.service");
+// import { memberServiceProvider } from './service/member.service.provider';
 var FamilyMemberComponent = (function () {
     function FamilyMemberComponent(memberService, router) {
         this.memberService = memberService;
@@ -47,6 +48,9 @@ var FamilyMemberComponent = (function () {
             }
             ;
         });
+    };
+    FamilyMemberComponent.prototype.doCopy = function () {
+        this.families.push(this.selectedMember);
     };
     FamilyMemberComponent.prototype.gotoDetail = function () {
         this.router.navigate(['/member-detail', this.selectedMember.id]);

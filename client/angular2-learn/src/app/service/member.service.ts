@@ -8,11 +8,17 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class MemberSerivce {
 
+    // constructor(private http: Http,
+    //             private isAuthorized: boolean) {}
+
     constructor(private http: Http) {}
 
     searchMember(name: string): Observable<FamilyMember[]> {
         return this.http.get('app/families?name=' + name, { headers: new Headers({ 'Content-type': 'application/json'})})
                         .map((res: Response) => res.json().data as FamilyMember[]);
+                        // .map((
+                        //     res: Response) => (res.json().data as FamilyMember[]).filter(member => this.isAuthorized || !member.isSecret)
+                        // );
     }
 
     getFamilyMembers(): Promise<FamilyMember[]> {

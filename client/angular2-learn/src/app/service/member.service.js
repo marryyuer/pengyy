@@ -12,12 +12,17 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 require("rxjs/add/operator/toPromise");
 var MemberSerivce = (function () {
+    // constructor(private http: Http,
+    //             private isAuthorized: boolean) {}
     function MemberSerivce(http) {
         this.http = http;
     }
     MemberSerivce.prototype.searchMember = function (name) {
         return this.http.get('app/families?name=' + name, { headers: new http_1.Headers({ 'Content-type': 'application/json' }) })
             .map(function (res) { return res.json().data; });
+        // .map((
+        //     res: Response) => (res.json().data as FamilyMember[]).filter(member => this.isAuthorized || !member.isSecret)
+        // );
     };
     MemberSerivce.prototype.getFamilyMembers = function () {
         return this.http.get('app/families')

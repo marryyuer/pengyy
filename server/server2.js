@@ -1,4 +1,7 @@
 var app = require('express')();
+var add = require('./public/test/test');
+
+console.log(add(1, 2));
 
 app.use(function(req, res, next) {
     console.log('¥n¥nALLWAYS!');

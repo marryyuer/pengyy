@@ -1,0 +1,21 @@
+{
+  "name": "firebase-learning-kit",
+  "version": "1.0.0",
+  "description": "learn to use firebase",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "firebase",
+    "angularfire"
+  ],
+  "author": "pengyy",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "^1.6.2",
+    "angular-resource": "^1.6.2",
+    "angularfire": "^2.3.0",
+    "firebase": "^3.6.10"
+  }
+}

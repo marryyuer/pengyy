@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../node_modules/firebase/firebase.js"></script>
+    <script src="../node_modules/angularfire/dist/angularfire.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyC0UmUecYAsYo2jisajeTjhBpcgSZZnRfA",
+        authDomain: "pyyproject118711.firebaseapp.com",
+        databaseURL: "https://pyyproject118711.firebaseio.com",
+        storageBucket: "pyyproject118711.appspot.com",
+        messagingSenderId: "641823626837"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <script>
+      var app = angular.module("app", ['firebase']);
+
+      app.controller("myCtrl", function($scope,$q, $rootScope, $firebaseArray, $timeout) {
+        $scope.text = [{
+          id: 1,
+          value: 'a1'
+        },{
+          id: 1,
+          value: 'b2'
+        },{
+          id: 1,
+          value: 'xx11'
+        }];
+
+        $scope.dataFromFirebase = [];
+        $rootScope.textAreaOfrecer = JSON.stringify($scope.text);
+
+
+        $scope._all = function(callback) {
+          var promises = [];
+          var palabras = JSON.parse($rootScope.textAreaOfrecer.toLowerCase());
+          //var solicitudes = [];
+          
+          palabras.map(function(palabra) {
+            promises.push($scope.singlePromise(palabra.value));
+          });
+
+          Promise.all(promises).then(function(solicitudes) {
+            // console.log(solicitudes);
+            callback(solicitudes);
+          });
+        }
+
+        $scope.singlePromise = function(item) {
+          var defer = $q.defer();
+
+          var arrTmp = $firebaseArray(firebase.database().ref().child("test").orderByChild("value").equalTo(item));
+
+          arrTmp.$loaded().then(function(arr) {
+            defer.resolve(arrTmp);
+          });
+          
+          return defer.promise;
+        }
+        $scope.clickEvt = function() {
+          $scope._all(function(arr) {
+            $timeout(function() {
+              $scope.$apply(function() {
+                arr.forEach(function(item) {
+                  $scope.dataFromFirebase.push(...item);
+                })
+              });
+            });
+          });
+        }
+      });
+    </script>
+</head>
+<body>
+  <div ng-app="app">
+    <div ng-controller="myCtrl">
+      <button ng-click="clickEvt()">click me!</button>
+      <div ng-repeat="item in dataFromFirebase">
+        <div>
+          Test: {{ item.test }}       Value: {{ item.value }}
+        </div>
+      </div>
+      {{ dataFromFirebase }}
+    </div>
+  </div>
+</body>

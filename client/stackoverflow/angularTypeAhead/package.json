@@ -1,0 +1,20 @@
+{
+  "name": "angular-typeahead",
+  "version": "1.0.0",
+  "description": "typeahead",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "typeahead"
+  ],
+  "author": "pengyy",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "^1.5.0",
+    "angular-animate": "^1.5.0",
+    "angular-ui-bootstrap": "^2.5.0",
+    "bootstrap": "^3.3.7"
+  }
+}

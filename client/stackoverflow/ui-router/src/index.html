@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Abstract State</title>
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../node_modules/angular-ui-router/release/angular-ui-router.js"></script>
+
+    
+    <script>
+        var app = angular.module('app', ['ui.router']);
+
+        app.config(function($stateProvider, $urlRouterProvider) {
+            $urlRouterProvider.when('/', 'default');
+            $stateProvider.state('abstract', {
+                url: 'abstract',
+                templateUrl: 'views/abstract-state.template.html',
+                controller: 'abstract',
+                controllerAs: 'vm',
+                abstrast: true
+            })
+            .state('abstract.sub', {
+                url: 'abstract/sub',
+                templateUrl: 'views/sub-state.template.html',
+                controller: 'substate as vm',
+                // controllerAs: 'vm'
+            })
+            .state('default', {
+                url: 'default',
+                templateUrl: 'views/default.template.html',
+                controller: 'default as vm',
+                controllerAs: 'vm'
+            })
+            .state('normal', {
+                url: 'normal',
+                templateUrl: 'views/normal-state.template.html',
+                controller: 'normal as vm',
+                controllerAs: 'vm'
+            });
+            // $urlRouterProvider.otherwise('/default');
+        });
+
+        app.controller('mainCtrl', function($scope, $state) {
+            $scope.test = 'main page';
+
+            $scope.goto = function() {
+                $state.go('default');
+            }
+        })
+    </script>
+
+    <script src="views/abstract-state.js"></script>
+    <script src="views/sub-state.js"></script>
+    <script src="views/default.js"></script>
+    <script src="views/normal-state.js"></script>
+</head>
+<body>
+    <div ng-app="app">
+        <div ng-controller="mainCtrl">
+            This is test page of abstract state.
+            {{ test }}
+            <button ng-click="goto()">Go</button>
+            <ui-view></ui-view>
+        </div>
+        <!--<ui-view></ui-view>-->
+    </div>
+</body>
+</html>

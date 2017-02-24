@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <script src="node_modules/angular/angular.js"></script>
+    <script>
+        var myApp = angular.module('myApp',[]);
+
+        myApp.controller('MyCtrl', function($scope, $filter) {
+            $scope.name = 'Superhero';
+            $scope.col = '';
+            $scope.filters = function() {
+                return !$scope.col.name;
+            };
+            $scope.TableData = [{
+                    name: "2017/03/01-14",
+                    specification: "1wk",
+                },
+                {
+                    name: "2017/03/01-17",
+                    specification: "Set-04",
+                },
+                {
+                    name: "2017/03/04-11",
+                    specification: "1wk",
+                },
+                {
+                    name: "2017/04/01-14",
+                    specification: "1wk",
+                },
+                {
+                    name: "2017/03/10-10",
+                    specification: "Set-04",
+                },
+                {
+                    name: "2017/03/10-10",
+                    specification: "Set-04",
+                }
+            ];
+            // $scope.TableDataFiltered = $filter('filter')($scope.TableData, $scope.col);
+        });
+    </script>
+</head>
+<body ng-app="myApp">
+    <div ng-controller="MyCtrl">
+        <input type="text" ng-model="col">
+        <table>
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>spec</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in TableData | filter : col">
+                    <td>{{item.name}}</td>
+                    <td>{{item.specification}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

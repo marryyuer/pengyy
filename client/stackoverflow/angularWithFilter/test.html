@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+    <script>
+        function test() {
+          var scope = angular.element($("#testInput")).scope();
+          $(".test")[0].innerText = scope.test;
+        }
+        
+        $(document).ready(function() {
+          test();            
+        });
+        
+    </script>
+    <script>
+    var app = angular.module('app', []);
+    
+    app.controller('myCtrl', function($scope) {
+        $scope.test = '111';
+
+        $scope.change = function() {
+            test();
+        }
+    });
+    </script>
+</head>
+<body>
+    <div class="test"></div>
+    <div ng-app="app">
+    <div ng-controller="myCtrl">
+        <input id="testInput" type="text" ng-change="change()" ng-model="test" />
+    </div>
+    </div>    
+</body>
+</html>

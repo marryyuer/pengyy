@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FamilyMember } from './model/family-member';
 import { MemberSerivce } from './service/member.service';
+// import { memberServiceProvider } from './service/member.service.provider';
 
 @Component({
     moduleId: module.id,
@@ -45,6 +46,9 @@ export class FamilyMemberComponent implements OnInit {
         });
     }
 
+    doCopy() {
+        this.families.push(this.selectedMember);
+    }
     gotoDetail() {
         this.router.navigate(['/member-detail', this.selectedMember.id]);
     }
