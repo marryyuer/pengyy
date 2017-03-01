@@ -9,4 +9,5 @@ log
 data
 server/credentials.js
 node_modules
+**/bower_components
 client/angular2/node_modules

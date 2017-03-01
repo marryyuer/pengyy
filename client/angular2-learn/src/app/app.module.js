@@ -21,6 +21,7 @@ var dashboard_component_1 = require("./dashboard.component");
 var member_search_component_1 = require("./member-search.component");
 var new_member_component_1 = require("./new-member.component");
 var member_service_1 = require("./service/member.service");
+var file_upload_component_1 = require("./file-upload.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -42,7 +43,8 @@ AppModule = __decorate([
             member_detail_component_1.MemberDetailComponent,
             dashboard_component_1.DashboardComponent,
             member_search_component_1.MemberSearchComponent,
-            new_member_component_1.NewMemberComponent
+            new_member_component_1.NewMemberComponent,
+            file_upload_component_1.FileUploadComponent
         ],
         bootstrap: [app_component_1.AppComponent],
         providers: [member_service_1.MemberSerivce]

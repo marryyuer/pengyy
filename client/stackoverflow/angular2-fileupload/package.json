@@ -1,0 +1,24 @@
+{
+  "name": "angular2-fileupload",
+  "version": "1.0.0",
+  "description": "file upload at angular2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "file",
+    "upload",
+    "by",
+    "angular/http"
+  ],
+  "author": "pengyy",
+  "license": "MIT",
+  "dependencies": {
+    "@angular/core": "^2.4.8",
+    "@angular/http": "^2.4.8",
+    "@angular/platform-browser": "^2.4.8",
+    "rxjs": "^5.2.0",
+    "zone.js": "^0.7.7"
+  }
+}

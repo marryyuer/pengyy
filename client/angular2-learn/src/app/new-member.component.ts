@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -11,9 +11,9 @@ import { MemberSerivce } from './service/member.service';
     templateUrl: 'new-member.component.html',
     styleUrls: ['new-member.component.css']
 })
-export class NewMemberComponent {
+export class NewMemberComponent implements OnInit {
     member: FamilyMember = new FamilyMember();
-
+    
     memberAddress= [{
         address: 'Beijing',
         index: 0
@@ -39,6 +39,9 @@ export class NewMemberComponent {
 
     }
 
+    ngOnInit() {
+        this.member.address = '1';
+    }
     doSubmit() {
         this.submitted = true;
     }

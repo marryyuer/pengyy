@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="../node_modules/angular/angular.js"></script>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+  </script>
+  <script>
+    angular.module('app', [])
+      .controller('parentCtrl', function($scope) {
+        $scope.testValue = true;
+        $scope.testObject = {
+          test: true,
+          name: ''
+        };
+      }).controller('myCtrl', function($scope) {
+        $scope.post = {
+          test: true
+        };
+        $scope.testObject = {
+          test: false,
+          name: ''
+        };
+      });
+  </script>
+</head>
+
+<body>
+  <div ng-app="app">
+    <div ng-controller="parentCtrl">
+      <div>
+        <input type="checkbox" ng-model="testObject.test" />
+        <input type="text" ng-model="testObject.name" />
+      </div>
+      <div ng-controller="myCtrl">
+        <input type="checkbox" ng-model="testObject.test" />
+        <input type="text" ng-model="testObject.name" />
+        <br>
+        <a href="#" class="btn" ng-disabled="(($parent.testObject.name === 'show' || post.test && $parent.testObject.test) ||
+                (testObject.name === 'show' || post.test && testObject.test))">
+                    11111
+                </a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- Angular Material Dependencies -->
+    <link rel="stylesheet" href="./bower_components/angular-material/angular-material.min.css">
+    <script src="./bower_components/angular/angular.min.js"></script>
+    <script src="./bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="./bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="./bower_components/angular-material/angular-material.min.js"></script>
+    <script src="./bower_components/angular-messages/angular-messages.js"></script>
+    <!-- Angular Material Fileinput -->
+    <link rel="stylesheet" href="./bower_components/lf-ng-md-file-input/dist/lf-ng-md-file-input.css">
+    <script src="./bower_components/lf-ng-md-file-input/dist/lf-ng-md-file-input.js"></script>
+    <script>
+        var app = angular.module('app', ['ngMaterial','ngMessages','lfNgMdFileInput']);
+        app.controller('MyCtrl',function($scope){
+            $scope.$watch('files.length',function(newVal,oldVal){
+                console.log($scope.files);
+            });
+        });
+    </script>
+</head>
+<body>
+    <div ng-app="app">
+        <div ng-controller="MyCtrl">
+            <form name="testForm" layout="column">
+                <lf-ng-md-file-input name="files00" lf-files="files09" lf-api="api09" lf-required lf-maxcount="5" lf-filesize="10MB" lf-totalsize="20MB" lf-mimetype="image/*" multiple drag preview></lf-ng-md-file-input>
+                <div ng-messages="testForm.files00.$error" style="color:red;">
+                    <div ng-message="required">This is required.</div>
+                    <div ng-message="maxcount">Too much files.</div>
+                    <div ng-message="filesize">File size too large.</div>
+                    <div ng-message="totalsize">Total size too large.</div>
+                    <div ng-message="mimetype">Mimetype error.</div>
+                </div>
+                <md-button type="button" ng-disabled="testForm.$invalid" class="md-raised md-primary" ng-click="api09.removeAll()">Submit</md-button>
+            </form>
+        </div>
+    </div>
+    <!--<input type="file" id="myFile" accept="image/jpeg,image/gif,application/msword,application/zip"/><br/>-->
+</body>
+</html>

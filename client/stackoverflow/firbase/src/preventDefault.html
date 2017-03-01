@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>preventDefault example</title>
+
+<script>
+function stopDefAction(evt) {
+  evt.preventDefault();
+}
+
+</script>
+</head>
+
+<body>
+
+<p>チェックボックスコントロールをクリックして下さい。</p>
+
+<form>
+  <input type="checkbox" id="my-checkbox" />
+  <label for="my-checkbox">チェックボックス</label>
+</form>
+
+<script>
+    document.getElementById('my-checkbox').addEventListener('click', stopDefAction, false);
+</script>
+</body>
+</html>

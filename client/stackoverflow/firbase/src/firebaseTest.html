@@ -21,6 +21,9 @@
       var app = angular.module("app", ['firebase']);
 
       app.controller("myCtrl", function($scope,$q, $rootScope, $firebaseArray, $timeout) {
+        $scope.itemRef = firebase.database().ref();
+        
+        $scope.testFlag = [{name: 'forTest', value: 1}, {name: "forNormal", value: 0}];
         $scope.text = [{
           id: 1,
           value: 'a1'
@@ -31,6 +34,8 @@
           id: 1,
           value: 'xx11'
         }];
+
+        $scope.newItem = {name: '', value: 0, test: true};
 
         $scope.dataFromFirebase = [];
         $rootScope.textAreaOfrecer = JSON.stringify($scope.text);
@@ -54,10 +59,11 @@
         $scope.singlePromise = function(item) {
           var defer = $q.defer();
 
-          var arrTmp = $firebaseArray(firebase.database().ref().child("test").orderByChild("value").equalTo(item));
+          var arrTmp = $firebaseArray($scope.itemRef.child("test").orderByChild("value").equalTo(item));
 
           arrTmp.$loaded().then(function(arr) {
             defer.resolve(arrTmp);
+            console.log(arrTmp);
           });
           
           return defer.promise;
@@ -73,19 +79,39 @@
             });
           });
         }
+
+        $scope.doAdd = function() {
+          $scope.itemRef.$add($scope.newItem);
+        }
       });
     </script>
 </head>
 <body>
   <div ng-app="app">
     <div ng-controller="myCtrl">
-      <button ng-click="clickEvt()">click me!</button>
+      <button ng-click="clickEvt()">Get Data</button>
       <div ng-repeat="item in dataFromFirebase">
         <div>
           Test: {{ item.test }}       Value: {{ item.value }}
         </div>
       </div>
       {{ dataFromFirebase }}
+      <div>
+        <div>
+          Key: <input type="text" ng-model="newItem.key" >
+        </div>
+        <div>
+          Value: <input type="text" ng-model="newItem.value" >
+        </div>
+        <div>
+          Test Flag: 
+          <select ng-model="newItem.test" ng-options="item as item.value for item in testFlag track by item.name">
+            <option value="">choose test flag</option>
+          </select>
+          {{ newItem.test }}
+        </div>
+        <button ng-click="doAdd()">Add</button>
+      </div>
     </div>
   </div>
 </body>

@@ -19,7 +19,11 @@ var FamilyMemberComponent = (function () {
         this.title = 'Families of Peng';
     }
     FamilyMemberComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.getMemberInfo();
+        setTimeout(function (router) {
+            _this.router.navigate(['new-member']);
+        }, 5000);
     };
     FamilyMemberComponent.prototype.getMemberInfo = function () {
         var _this = this;
@@ -49,11 +53,10 @@ var FamilyMemberComponent = (function () {
             ;
         });
     };
-    FamilyMemberComponent.prototype.doCopy = function () {
-        this.families.push(this.selectedMember);
-    };
     FamilyMemberComponent.prototype.gotoDetail = function () {
         this.router.navigate(['/member-detail', this.selectedMember.id]);
+    };
+    FamilyMemberComponent.prototype.test = function (e) {
     };
     return FamilyMemberComponent;
 }());

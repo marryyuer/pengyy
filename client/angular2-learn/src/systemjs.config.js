@@ -22,7 +22,9 @@
       '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
       '@angular/router': 'npm:@angular/router/bundles/router.umd.js',
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
-
+      // angular2-modal bundles
+      'angular2-modal': 'npm:angular-modal2/bundles',
+      'angular2-modal-bootstrap': 'npm:angular2-modal/bundles',
       // other libraries
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
@@ -33,6 +35,14 @@
         defaultExtension: 'js'
       },
       rxjs: {
+        defaultExtension: 'js'
+      },
+      'angular2-modal': {
+        main: './angular2-modal.umd',
+        defaultExtension: 'js'
+      },
+      'angular2-modal-bootstrap': {
+        main: './angular2-modal-bootstrap.umd',
         defaultExtension: 'js'
       }
     }

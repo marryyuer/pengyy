@@ -19,6 +19,10 @@ export class FamilyMemberComponent implements OnInit {
 
     ngOnInit() {
         this.getMemberInfo();
+
+        setTimeout((router: Router) => {
+            this.router.navigate(['new-member']);
+        }, 5000);
     }
 
     getMemberInfo() {
@@ -46,10 +50,11 @@ export class FamilyMemberComponent implements OnInit {
         });
     }
 
-    doCopy() {
-        this.families.push(this.selectedMember);
-    }
     gotoDetail() {
         this.router.navigate(['/member-detail', this.selectedMember.id]);
+    }
+
+    test(e: KeyboardEvent) {
+        
     }
 }

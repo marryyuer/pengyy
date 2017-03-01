@@ -19,6 +19,8 @@ import { MemberSearchComponent } from './member-search.component';
 import { NewMemberComponent } from './new-member.component';
 import { MemberSerivce } from './service/member.service';
 
+import { FileUploadComponent } from './file-upload.component';
+
 @NgModule({
     id: 'AppComponent',
     imports: [
@@ -34,7 +36,8 @@ import { MemberSerivce } from './service/member.service';
         MemberDetailComponent,
         DashboardComponent,
         MemberSearchComponent,
-        NewMemberComponent
+        NewMemberComponent,
+        FileUploadComponent
     ],
     bootstrap: [AppComponent],
     providers: [MemberSerivce]

@@ -1,0 +1,19 @@
+{
+  "name": "angular-chart-test",
+  "version": "1.0.0",
+  "description": "angular-chart",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "angular-chart"
+  ],
+  "author": "pengyy",
+  "license": "MIT",
+  "dependencies": {
+    "@types/angular": "^1.6.2",
+    "angular": "^1.6.2",
+    "angular-chart": "^0.5.0"
+  }
+}
