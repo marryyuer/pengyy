@@ -12,7 +12,7 @@ export class MemberDetailComponent {
     @Input() member: FirebaseObjectObservable<any>;
     @Input() family: FirebaseListObservable<any[]>;
 
-    doUpdate() {
-        // this.family.update(this.member.$key, this.member);
-    }
+    // doUpdate() {
+    //     this.family.update(this.member.$key, this.member);
+    // }
 }
