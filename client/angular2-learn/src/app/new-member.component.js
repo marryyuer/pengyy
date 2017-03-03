@@ -38,7 +38,7 @@ var NewMemberComponent = (function () {
         this.submitted = false;
     }
     NewMemberComponent.prototype.ngOnInit = function () {
-        this.member.address = '1';
+        // this.member.address = '1';
     };
     NewMemberComponent.prototype.doSubmit = function () {
         this.submitted = true;

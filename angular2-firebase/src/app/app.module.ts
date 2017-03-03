@@ -7,13 +7,15 @@ import { FileUploadModule } from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
 import { MemberDetailComponent } from './member-detail.conponent';
+import { MemberSearchComponent } from './member-search.component';
 
 import { AngularFireModule } from 'angularfire2';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MemberDetailComponent
+    MemberDetailComponent,
+    MemberSearchComponent
   ],
   imports: [
     BrowserModule,

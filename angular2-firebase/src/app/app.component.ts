@@ -21,4 +21,8 @@ export class AppComponent {
     this.items.push(this.newItem);
     this.newItem = new FamilyMember();
   }
+
+  deleteItem(key: string) {
+    this.items.remove(key);
+  }
 }

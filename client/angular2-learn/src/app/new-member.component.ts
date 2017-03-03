@@ -40,7 +40,7 @@ export class NewMemberComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.member.address = '1';
+        // this.member.address = '1';
     }
     doSubmit() {
         this.submitted = true;

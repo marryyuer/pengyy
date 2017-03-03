@@ -6,15 +6,24 @@
     <li class="text" (click)="selectedMember = item">
       {{item.$key}} - {{item.name}} - {{item.age}} - {{item.location}}
     </li>
+    <button (click)="deleteItem(item)">Delete</button>
   </ul>
   <div *ngIf="selectedMember">
-    <app-member-detail [member]="selectedMember"></app-member-detail>
+    <app-member-detail [member]="selectedMember" [key]="selectedMember.$key"></app-member-detail>
+  </div>
+
+
+  <div>
+    <app-member-search></app-member-search>
   </div>
 </div>
 
-<form #newMember="ngForm" (ngSubmit)="addItem();">
-  Name:     <input type="text" name="name" [(ngModel)]="newItem.name" required>
-  Age:      <input type="text" name="age" [(ngModel)]="newItem.age" required>
-  Location: <input type="text" name="location" [(ngModel)]="newItem.location">
-  <button type="submit" [disabled]="!newMember.form.valid">Add</button>
-</form>
+<div *ngIf="!selectedMember">
+  <h3>New Member</h3>
+  <form #newMember="ngForm" (ngSubmit)="addItem();">
+    Name:     <input type="text" name="name" [(ngModel)]="newItem.name" required>
+    Age:      <input type="text" name="age" [(ngModel)]="newItem.age" required>
+    Location: <input type="text" name="location" [(ngModel)]="newItem.location">
+    <button type="submit" [disabled]="!newMember.form.valid">Add</button>
+  </form>
+</div>
