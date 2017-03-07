@@ -1,6 +1,14 @@
 <h1>
-  {{title}}
+  {{ (constants | async)?.title }}
 </h1>
+<div (click)="showUpdErea=true">
+  Click here to change the Title.
+  <div *ngIf="showUpdErea">
+    <input type="text" placeholder="{{(constants | async)?.title}}" [(ngModel)]="newTitle">
+    <button (click)="updateTitle()">Update The Title</button>
+  </div>
+</div>
+
 <div>
   <ul *ngFor="let item of items | async">
     <li class="text" (click)="selectedMember = item">

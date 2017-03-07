@@ -12,7 +12,8 @@ export class MemberDetailComponent {
     @Input() member: FirebaseObjectObservable<any>;
     @Input() key: string;
 
-    constructor(private af: AngularFire) {}
+    constructor(private af: AngularFire) {
+    }
 
     doUpdate() {
         this.af.database.list('/family').update(this.key, this.member);

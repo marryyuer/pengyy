@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 
 import { FamilyMember } from './model/family-member';
 
@@ -9,12 +9,17 @@ import { FamilyMember } from './model/family-member';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+  showUpdErea = false;
+  newTitle = '';
   items: FirebaseListObservable<any[]>;
+  constants: FirebaseObjectObservable<any>;
+
   selectedMember: FirebaseListObservable<any>;
   newItem = new FamilyMember();
+
   constructor(af: AngularFire) {
     this.items = af.database.list('/family');
+    this.constants = af.database.object('/constants');
   }
 
   addItem() {
@@ -24,5 +29,11 @@ export class AppComponent {
 
   deleteItem(key: string) {
     this.items.remove(key);
+  }
+
+  updateTitle() {
+    this.constants.update({'title': this.newTitle}).then(() => {
+      this.showUpdErea = false;
+    });
   }
 }
