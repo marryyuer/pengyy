@@ -19,6 +19,8 @@ import { MemberSearchComponent } from './member-search.component';
 import { NewMemberComponent } from './new-member.component';
 import { MemberSerivce } from './service/member.service';
 
+import { AgePipe } from './pipe/simplePipe.pipe';
+
 import { FileUploadComponent } from './file-upload.component';
 
 @NgModule({
@@ -37,7 +39,8 @@ import { FileUploadComponent } from './file-upload.component';
         DashboardComponent,
         MemberSearchComponent,
         NewMemberComponent,
-        FileUploadComponent
+        FileUploadComponent,
+        AgePipe
     ],
     bootstrap: [AppComponent],
     providers: [MemberSerivce]

@@ -4,10 +4,10 @@ var InMemoryDataService = (function () {
     }
     InMemoryDataService.prototype.createDb = function () {
         var families = [
-            { id: 1, name: 'Pengyy', address: 'Beijing' },
-            { id: 2, name: 'YuerBaby', address: 'Beijing' },
-            { id: 3, name: 'Mama', address: 'Zhengzhou' },
-            { id: 4, name: 'Xinxin', address: 'Chongqing' }
+            { id: 1, name: 'Pengyy', address: 'Beijing', age: 29 },
+            { id: 2, name: 'YuerBaby', address: 'Beijing', age: 24 },
+            { id: 3, name: 'Mama', address: 'Zhengzhou', age: 52 },
+            { id: 4, name: 'Xinxin', address: 'Chongqing', age: 27 }
         ];
         return { families: families };
     };

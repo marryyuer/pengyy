@@ -17,13 +17,15 @@ var FamilyMemberComponent = (function () {
         this.memberService = memberService;
         this.router = router;
         this.title = 'Families of Peng';
+        this.minAge = 10;
+        this.maxAge = 50;
     }
     FamilyMemberComponent.prototype.ngOnInit = function () {
-        var _this = this;
         this.getMemberInfo();
-        setTimeout(function (router) {
-            _this.router.navigate(['new-member']);
-        }, 5000);
+        // transfer to detail after 5 seconds
+        // setTimeout((router: Router) => {
+        //     this.router.navigate(['new-member']);
+        // }, 5000);
     };
     FamilyMemberComponent.prototype.getMemberInfo = function () {
         var _this = this;

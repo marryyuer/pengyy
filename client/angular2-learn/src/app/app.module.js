@@ -21,6 +21,7 @@ var dashboard_component_1 = require("./dashboard.component");
 var member_search_component_1 = require("./member-search.component");
 var new_member_component_1 = require("./new-member.component");
 var member_service_1 = require("./service/member.service");
+var simplePipe_pipe_1 = require("./pipe/simplePipe.pipe");
 var file_upload_component_1 = require("./file-upload.component");
 var AppModule = (function () {
     function AppModule() {
@@ -44,7 +45,8 @@ AppModule = __decorate([
             dashboard_component_1.DashboardComponent,
             member_search_component_1.MemberSearchComponent,
             new_member_component_1.NewMemberComponent,
-            file_upload_component_1.FileUploadComponent
+            file_upload_component_1.FileUploadComponent,
+            simplePipe_pipe_1.AgePipe
         ],
         bootstrap: [app_component_1.AppComponent],
         providers: [member_service_1.MemberSerivce]

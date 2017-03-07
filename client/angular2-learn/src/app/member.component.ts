@@ -14,15 +14,20 @@ export class FamilyMemberComponent implements OnInit {
     title = 'Families of Peng';
     selectedMember: FamilyMember;
     families: FamilyMember[];
+
+    minAge = 10;
+    maxAge = 50;
+
     constructor(private memberService: MemberSerivce,
                 private router: Router) {}
 
     ngOnInit() {
         this.getMemberInfo();
 
-        setTimeout((router: Router) => {
-            this.router.navigate(['new-member']);
-        }, 5000);
+        // transfer to detail after 5 seconds
+        // setTimeout((router: Router) => {
+        //     this.router.navigate(['new-member']);
+        // }, 5000);
     }
 
     getMemberInfo() {
