@@ -1,0 +1,23 @@
+{
+  "name": "ngmap-with-modal",
+  "version": "1.0.0",
+  "description": "showing ngMap with modal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ngMap",
+    "$modal"
+  ],
+  "author": "pengyy",
+  "license": "MIT",
+  "dependencies": {
+    "angular": "^1.6.2",
+    "angular-ui-bootstrap": "^2.5.0",
+    "ngmap": "^1.18.0"
+  },
+  "devDependencies": {
+    "express": "^4.15.2"
+  }
+}
