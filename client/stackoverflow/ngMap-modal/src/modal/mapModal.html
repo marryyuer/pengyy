@@ -1,5 +1,7 @@
-<div>
-    <ng-map center="{{ center }}" zoom="15">
-        <marker position="{{ position }}"></marker>
+<div style="height:600px;">
+    <ng-map style="width:600px;height:550px" class=map zoom="15" center="[30.45, -91.15]">
+        <marker title="{{marker.detail}}" ng-repeat="marker in markers" position="{{marker.lat}}, {{marker.lng}}" />
+        <shape ng-repeat="fence in geofences" name="circle" radius="{{fence.radius}}" center="[{{fence.lat}}, {{fence.lng}}]" />
     </ng-map>
+    <button ng-click="fitBounds()">Fit Bounds</button>
 </div>

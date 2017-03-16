@@ -5,10 +5,10 @@ import { FamilyMember } from './model/family-member';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './sample.component.html',
+  styleUrls: ['./sample.component.css']
 })
-export class AppComponent {
+export class SampleComponent {
   showUpdErea = false;
   newTitle = '';
   items: FirebaseListObservable<any[]>;
@@ -16,7 +16,7 @@ export class AppComponent {
 
   selectedMember: FirebaseListObservable<any>;
   newItem = new FamilyMember();
-  
+
   constructor(af: AngularFire) {
     this.items = af.database.list('/family');
     this.constants = af.database.object('/constants');
@@ -35,10 +35,5 @@ export class AppComponent {
     this.constants.update({'title': this.newTitle}).then(() => {
       this.showUpdErea = false;
     });
-  }
-
-  test() {
-    var a = 1;
-    delete a;
   }
 }
