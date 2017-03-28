@@ -42,7 +42,8 @@ app.controller('mapModalCtrl', function($scope, NgMap) {
 
     NgMap.getMap().then(function(map) {
         $scope._map = map;
-    
+        
+        console.log('map Bounds:' + map.getBounds());
         var center = new google.maps.LatLng(30.45, -91.15);
         var spherical = google.maps.geometry.spherical;
 
