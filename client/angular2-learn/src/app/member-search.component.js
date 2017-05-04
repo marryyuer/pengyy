@@ -45,7 +45,7 @@ MemberSearchComponent = __decorate([
         styleUrls: ['member-search.component.css']
     }),
     __metadata("design:paramtypes", [router_1.Router,
-        member_service_1.MemberSerivce])
+        member_service_1.MemberService])
 ], MemberSearchComponent);
 exports.MemberSearchComponent = MemberSearchComponent;
 //# sourceMappingURL=member-search.component.js.map

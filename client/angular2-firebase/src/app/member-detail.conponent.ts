@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { } from '@angular/common';
-import { FirebaseObjectObservable, AngularFire } from 'angularfire2';
+import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 
 import { FamilyMember } from './model/family-member';
 
@@ -12,10 +12,10 @@ export class MemberDetailComponent {
     @Input() member: FirebaseObjectObservable<any>;
     @Input() key: string;
 
-    constructor(private af: AngularFire) {
+    constructor(private db: AngularFireDatabase) {
     }
 
     doUpdate() {
-        this.af.database.list('/family').update(this.key, this.member);
+        this.db.list('/family').update(this.key, this.member);
     }
 }

@@ -60,7 +60,7 @@ NewMemberComponent = __decorate([
     }),
     __metadata("design:paramtypes", [router_1.ActivatedRoute,
         common_1.Location,
-        member_service_1.MemberSerivce])
+        member_service_1.MemberService])
 ], NewMemberComponent);
 exports.NewMemberComponent = NewMemberComponent;
 //# sourceMappingURL=new-member.component.js.map

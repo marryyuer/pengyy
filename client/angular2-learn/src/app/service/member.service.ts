@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class MemberSerivce {
+export class MemberService {
 
     // constructor(private http: Http,
     //             private isAuthorized: boolean) {}

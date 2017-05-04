@@ -10,6 +10,7 @@ import { MemberDetailComponent } from './member-detail.conponent';
 import { MemberSearchComponent } from './member-search.component';
 
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { AngularFireModule } from 'angularfire2';
       storageBucket: 'pyyproject118711.appspot.com',
       messagingSenderId: '641823626837'
     }),
+    AngularFireDatabaseModule,
     FileUploadModule
   ],
   providers: [],

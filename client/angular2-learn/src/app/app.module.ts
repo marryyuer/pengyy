@@ -17,7 +17,7 @@ import { MemberDetailComponent } from './member-detail.component';
 import { DashboardComponent } from './dashboard.component';
 import { MemberSearchComponent } from './member-search.component';
 import { NewMemberComponent } from './new-member.component';
-import { MemberSerivce } from './service/member.service';
+import { MemberService } from './service/member.service';
 
 import { AgePipe } from './pipe/simplePipe.pipe';
 
@@ -43,7 +43,7 @@ import { FileUploadComponent } from './file-upload.component';
         AgePipe
     ],
     bootstrap: [AppComponent],
-    providers: [MemberSerivce]
+    providers: [MemberService]
 })
 export class AppModule {
 

@@ -32,7 +32,7 @@ DashboardComponent = __decorate([
         templateUrl: "dashboard.component.html",
         styleUrls: ['dashboard.component.css']
     }),
-    __metadata("design:paramtypes", [member_service_1.MemberSerivce])
+    __metadata("design:paramtypes", [member_service_1.MemberService])
 ], DashboardComponent);
 exports.DashboardComponent = DashboardComponent;
 //# sourceMappingURL=dashboard.component.js.map

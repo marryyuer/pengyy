@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FamilyMember } from './model/family-member';
-import { MemberSerivce } from './service/member.service';
+import { MemberService } from './service/member.service';
 
 @Component({
     moduleId: module.id,
@@ -12,7 +12,7 @@ import { MemberSerivce } from './service/member.service';
 export class DashboardComponent implements OnInit {
     families: FamilyMember[];
 
-    constructor(private memberService: MemberSerivce) {}
+    constructor(private memberService: MemberService) {}
 
     ngOnInit() {
         this.getMemberInfo();

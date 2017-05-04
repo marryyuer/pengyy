@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { FamilyMember } from './model/family-member';
 
 @Component({
@@ -10,10 +10,10 @@ import { FamilyMember } from './model/family-member';
 export class MemberSearchComponent {
     results: FirebaseListObservable<any>;
     name: string;
-    constructor(private af: AngularFire) {}
+    constructor(private db: AngularFireDatabase) {}
 
     doSearch() {
-        this.results = this.af.database.list('/family', {
+        this.results = this.db.list('/family', {
             query: {
                 orderByChild: 'name',
                 equalTo: this.name
@@ -25,7 +25,7 @@ export class MemberSearchComponent {
     }
 
     doDelete() {
-        this.results = this.af.database.list('/family', {
+        this.results = this.db.list('/family', {
             query: {
                 orderByChild: 'name',
                 equalTo: this.name
@@ -35,7 +35,7 @@ export class MemberSearchComponent {
         this.results.subscribe(members => {
             members.forEach(member => {
                 // this.af.database.list('/family').remove(member.$key);
-                this.af.database.list('/family/' + member.$key).remove();
+                this.db.list('/family/' + member.$key).remove();
             });
         });
     }

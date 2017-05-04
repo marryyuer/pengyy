@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { FamilyMember } from './model/family-member';
-import { MemberSerivce } from './service/member.service';
+import { MemberService } from './service/member.service';
 
 @Component({
     moduleId: module.id,
@@ -35,7 +35,7 @@ export class NewMemberComponent implements OnInit {
 
     constructor(private router: ActivatedRoute,
                 private location: Location,
-                private memberService: MemberSerivce) {
+                private memberService: MemberService) {
 
     }
 

@@ -5,8 +5,8 @@ var memberServiceFactory = function (http, userService) {
     // return new MemberSerivce(http, userService.isAuthorized);
 };
 exports.memberServiceProvider = {
-    provider: member_service_1.MemberSerivce,
+    provider: member_service_1.MemberService,
     useFactory: memberServiceFactory,
-    deps: [http_1.Http, member_service_1.MemberSerivce]
+    deps: [http_1.Http, member_service_1.MemberService]
 };
 //# sourceMappingURL=member.service.provider.js.map

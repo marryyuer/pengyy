@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
-
+// import { AngularFire, AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { FamilyMember } from './model/family-member';
 
 @Component({
@@ -16,10 +16,11 @@ export class AppComponent {
 
   selectedMember: FirebaseListObservable<any>;
   newItem = new FamilyMember();
-  
-  constructor(af: AngularFire) {
-    this.items = af.database.list('/family');
-    this.constants = af.database.object('/constants');
+
+  constructor(db: AngularFireDatabase) {
+    // this.items = af.database.list('/family');
+    this.items = db.list('/family');
+    this.constants = db.object('/constants');
   }
 
   addItem() {

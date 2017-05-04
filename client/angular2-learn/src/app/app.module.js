@@ -49,7 +49,7 @@ AppModule = __decorate([
             simplePipe_pipe_1.AgePipe
         ],
         bootstrap: [app_component_1.AppComponent],
-        providers: [member_service_1.MemberSerivce]
+        providers: [member_service_1.MemberService]
     })
 ], AppModule);
 exports.AppModule = AppModule;

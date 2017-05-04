@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
 import { FamilyMember } from './model/family-member';
-import { MemberSerivce } from './service/member.service';
+import { MemberService } from './service/member.service';
 
 @Component({
     moduleId: module.id,
@@ -15,7 +15,7 @@ import { MemberSerivce } from './service/member.service';
 export class MemberDetailComponent implements OnInit {
     member: FamilyMember;
 
-    constructor(private memberService: MemberSerivce,
+    constructor(private memberService: MemberService,
                 private router: ActivatedRoute,
                 private location: Location) {
 

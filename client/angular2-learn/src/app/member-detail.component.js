@@ -40,7 +40,7 @@ MemberDetailComponent = __decorate([
         templateUrl: 'member-detail.component.html',
         styleUrls: ['member-detail.component.css']
     }),
-    __metadata("design:paramtypes", [member_service_1.MemberSerivce,
+    __metadata("design:paramtypes", [member_service_1.MemberService,
         router_1.ActivatedRoute,
         common_1.Location])
 ], MemberDetailComponent);

@@ -11,62 +11,62 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 require("rxjs/add/operator/toPromise");
-var MemberSerivce = (function () {
+var MemberService = (function () {
     // constructor(private http: Http,
     //             private isAuthorized: boolean) {}
-    function MemberSerivce(http) {
+    function MemberService(http) {
         this.http = http;
     }
-    MemberSerivce.prototype.searchMember = function (name) {
+    MemberService.prototype.searchMember = function (name) {
         return this.http.get('app/families?name=' + name, { headers: new http_1.Headers({ 'Content-type': 'application/json' }) })
             .map(function (res) { return res.json().data; });
         // .map((
         //     res: Response) => (res.json().data as FamilyMember[]).filter(member => this.isAuthorized || !member.isSecret)
         // );
     };
-    MemberSerivce.prototype.getFamilyMembers = function () {
+    MemberService.prototype.getFamilyMembers = function () {
         return this.http.get('app/families')
             .toPromise()
             .then(function (response) { return response.json().data; })
             .catch(this.handleError);
     };
     ;
-    MemberSerivce.prototype.getFamilyMembersSlowly = function () {
+    MemberService.prototype.getFamilyMembersSlowly = function () {
         var _this = this;
         return new Promise(function (resolve) { return setTimeout(resolve, 2000); }).then(function () { return _this.getFamilyMembers(); });
     };
     ;
-    MemberSerivce.prototype.getMemberInfoByID = function (id) {
+    MemberService.prototype.getMemberInfoByID = function (id) {
         return this.getFamilyMembers().then(function (members) { return members.find(function (member) { return member.id === id; }); });
     };
-    MemberSerivce.prototype.updateFamilyMember = function (member) {
+    MemberService.prototype.updateFamilyMember = function (member) {
         var updUrl = 'app/families/' + member.id;
         return this.http.put(updUrl, JSON.stringify(member), { headers: new http_1.Headers({ 'Content-Type': 'application/json' }) })
             .toPromise()
             .then(function () { return member; })
             .catch(this.handleError);
     };
-    MemberSerivce.prototype.addFamilyMember = function (memberName) {
+    MemberService.prototype.addFamilyMember = function (memberName) {
         return this.http.post('app/families', JSON.stringify({ name: memberName, address: 'futrue' }), { headers: new http_1.Headers({ 'Content-Type': 'application/json' }) })
             .toPromise()
             .then(function (response) { return response.json().data; })
             .catch(this.handleError);
     };
-    MemberSerivce.prototype.deleteFamilyMember = function (member) {
+    MemberService.prototype.deleteFamilyMember = function (member) {
         return this.http.delete('app/families/' + member.id, { headers: new http_1.Headers({ 'Content- Type': 'application/json' }) })
             .toPromise()
             .then(function () { return null; })
             .catch(this.handleError);
     };
-    MemberSerivce.prototype.handleError = function (error) {
+    MemberService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);
     };
-    return MemberSerivce;
+    return MemberService;
 }());
-MemberSerivce = __decorate([
+MemberService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [http_1.Http])
-], MemberSerivce);
-exports.MemberSerivce = MemberSerivce;
+], MemberService);
+exports.MemberService = MemberService;
 //# sourceMappingURL=member.service.js.map

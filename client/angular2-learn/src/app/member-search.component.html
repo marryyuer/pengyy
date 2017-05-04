@@ -2,8 +2,8 @@
   <h4>Hero Search</h4>
   <input #searchBox id="search-box" (keyup)="doSearch(searchBox.value)" />
   <div>
-    <div *ngFor="let member of families | async"
-         (click)="gotoDetail(member)" class="search-result" >
+    <div *ngFor="let member of families | async" [routerLink]="['/member-detail', member.id]"
+         class="search-result" >
       {{member.name}}
     </div>
   </div>

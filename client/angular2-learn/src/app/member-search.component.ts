@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { FamilyMember } from './model/family-member';
-import { MemberSerivce } from './service/member.service';
+import { MemberService } from './service/member.service';
 
 @Component({
     moduleId: module.id,
@@ -18,7 +18,7 @@ export class MemberSearchComponent implements OnInit {
     private searchTerms = new Subject<string>();
 
     constructor(private router: Router,
-                private memberService: MemberSerivce) {}
+                private memberService: MemberService) {}
 
     ngOnInit() {
         this.families = this.searchTerms.debounceTime(300)

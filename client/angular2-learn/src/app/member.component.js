@@ -58,8 +58,6 @@ var FamilyMemberComponent = (function () {
     FamilyMemberComponent.prototype.gotoDetail = function () {
         this.router.navigate(['/member-detail', this.selectedMember.id]);
     };
-    FamilyMemberComponent.prototype.test = function (e) {
-    };
     return FamilyMemberComponent;
 }());
 FamilyMemberComponent = __decorate([
@@ -69,7 +67,7 @@ FamilyMemberComponent = __decorate([
         templateUrl: 'member.component.html',
         styleUrls: ['member.component.css']
     }),
-    __metadata("design:paramtypes", [member_service_1.MemberSerivce,
+    __metadata("design:paramtypes", [member_service_1.MemberService,
         router_1.Router])
 ], FamilyMemberComponent);
 exports.FamilyMemberComponent = FamilyMemberComponent;

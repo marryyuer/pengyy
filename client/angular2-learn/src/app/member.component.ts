@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FamilyMember } from './model/family-member';
-import { MemberSerivce } from './service/member.service';
+import { MemberService } from './service/member.service';
 // import { memberServiceProvider } from './service/member.service.provider';
 
 @Component({
@@ -18,7 +18,7 @@ export class FamilyMemberComponent implements OnInit {
     minAge = 10;
     maxAge = 50;
 
-    constructor(private memberService: MemberSerivce,
+    constructor(private memberService: MemberService,
                 private router: Router) {}
 
     ngOnInit() {
@@ -57,9 +57,5 @@ export class FamilyMemberComponent implements OnInit {
 
     gotoDetail() {
         this.router.navigate(['/member-detail', this.selectedMember.id]);
-    }
-
-    test(e: KeyboardEvent) {
-        
     }
 }
