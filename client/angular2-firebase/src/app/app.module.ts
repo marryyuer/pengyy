@@ -11,7 +11,7 @@ import { MemberSearchComponent } from './member-search.component';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-
+import { firebaseConfig} from './firebaseConfig';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,13 +22,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AngularFireModule.initializeApp({
-      apiKey: 'AIzaSyC0UmUecYAsYo2jisajeTjhBpcgSZZnRfA',
-      authDomain: 'pyyproject118711.firebaseapp.com',
-      databaseURL: 'https://pyyproject118711.firebaseio.com',
-      storageBucket: 'pyyproject118711.appspot.com',
-      messagingSenderId: '641823626837'
-    }),
+    AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     FileUploadModule
   ],
