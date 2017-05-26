@@ -11,7 +11,7 @@ import { MemberSearchComponent } from './member-search.component';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { firebaseConfig} from './firebaseConfig';
+import { firebaseConfig } from './firebaseConfig';
 @NgModule({
   declarations: [
     AppComponent,
