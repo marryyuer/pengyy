@@ -1,8 +1,0 @@
-<div>
-    <input type="text" [(ngModel)]="name">
-    <button (click)="doSearch()">Search</button>
-    <div *ngFor="let member of results | async">
-        {{member.name}} = {{member.age}} = {{member.location}}
-    </div>
-    <button (click)="doDelete()">Delete</button>
-</div>
