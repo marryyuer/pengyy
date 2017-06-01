@@ -20,27 +20,47 @@
     <script>
 
 function initMap() {
-  var myLatLng = [{lat: -25.363, lng: 131.044}, {lat: -24.363, lng: 132.044}, {lat: -23.363, lng: 133.044}];
+  var myLatLng = {lat: -25.363, lng: 131.044};
 
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 4,
-    center: myLatLng[0]
+    center: myLatLng
   });
 
-  for (var i = 0; i < myLatLng.length; i ++) {
-    var marker = new google.maps.Marker({
-        position: myLatLng[i],
+  var marker = new google.maps.Marker({
+        position: myLatLng,
         map: map,
         title: 'Hello World!'
-    });
+  });
 
-    google.maps.event.addListener(marker,  'click',  function(mouseEvent) { 
-        //alert(this.position);
-        // console.log(e);
-        alert(mouseEvent.latLng.lat());
-        alert(mouseEvent.latLng.lng());
-    });
-  }
+  console.log(map);
+
+  // google.maps.event.addListener(map, "dblclick", function(googleMapsEvent) {
+  //   console.log("caught double click");
+  //   // reference the global event object
+  //   // ignore the googleMapsEvent passed in by Google Maps!
+  //   //googleMapsEvent.preventDefault();
+  //   console.log(googleMapsEvent.latLng.lat());
+  //   console.log(googleMapsEvent.latLng.lng());
+
+  //   googleMapsEvent.latLng = new google.maps.LatLng(-25.363, 131.044);
+
+  //   console.log('lat after modified:' + googleMapsEvent.latLng.lat());
+  //   console.log('lng after modified:' + googleMapsEvent.latLng.lng());
+    
+  //   console.log(googleMapsEvent);
+  // });
+
+  // google.maps.event.addListener(map, "mousemove", function(googleMapsEvent) {
+  //   googleMapsEvent.latLng = new google.maps.LatLng(-25.363, 131.044);
+  // });
+
+  // google.maps.event.addListener(map, "center_changed", function(googleMapsEvent) {
+    
+  //   var center = new google.maps.LatLng(-25.363, 131.044);
+
+  //   map.setCenter(center);
+  // });
 }
 
     </script>

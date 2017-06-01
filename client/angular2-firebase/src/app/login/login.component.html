@@ -1,0 +1,18 @@
+<div>
+  <form (ngSubmit)="login()" [formGroup]="loginForm">
+    <md-icon>email</md-icon>
+    <md-input-container>
+      <input mdInput type="email" placeholder="Email" formControlName="email">
+    </md-input-container>
+    <br>
+    <md-icon>vpn_key</md-icon>
+    <md-input-container>
+      <input mdInput type="password" placeholder="Password" formControlName="password">
+    </md-input-container>
+    <br>
+    <button type="submit">Login</button><br>  
+  </form>
+
+  <button type="button" (click)="resetPassword()">Reset Password</button>
+  <button type="button" (click)="signUp()">Sign Up</button>
+</div>

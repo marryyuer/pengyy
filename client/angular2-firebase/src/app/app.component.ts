@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
-// import { AngularFire, AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { Router } from '@angular/router';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { FamilyMember } from './model/family-member';
+import { AuthService } from './service/auth.service';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -9,32 +13,43 @@ import { FamilyMember } from './model/family-member';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  showUpdErea = false;
-  newTitle = '';
-  items: FirebaseListObservable<any[]>;
-  constants: FirebaseObjectObservable<any>;
-
-  selectedMember: FirebaseListObservable<any>;
-  newItem = new FamilyMember();
-
-  constructor(db: AngularFireDatabase) {
-    // this.items = af.database.list('/family');
-    this.items = db.list('/family');
-    this.constants = db.object('/constants');
-  }
-
-  addItem() {
-    this.items.push(this.newItem);
-    this.newItem = new FamilyMember();
-  }
-
-  deleteItem(key: string) {
-    this.items.remove(key);
-  }
-
-  updateTitle() {
-    this.constants.update({'title': this.newTitle}).then(() => {
-      this.showUpdErea = false;
+  loginStatus = false;
+  items = [
+    {
+      icon: 'home',
+      text: 'HOME',
+      url: 'home',
+    }, {
+      icon: 'info',
+      text: 'ABOUT',
+      url: 'about'
+    }, {
+      icon: 'power_settings_new',
+      text: 'LogOut',
+      url: 'logout'
+    }
+  ];
+  constructor(private auth: AngularFireAuth,
+              private router: Router,
+              private authService: AuthService) {
+    this.auth.authState.subscribe(user => {
+      if (!user) {
+        this.loginStatus = false;
+      } else {
+        this.loginStatus = true;
+      }
     });
+  }
+
+  navigate(url: string) {
+    if (!url) {
+      return false;
+    }
+    if (url === 'logout') {
+      this.authService.logout();
+      url = 'login';
+    }
+
+    this.router.navigate(['./' + url]);
   }
 }

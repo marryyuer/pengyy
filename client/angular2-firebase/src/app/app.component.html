@@ -1,36 +1,31 @@
-<h1>
-  {{ (constants | async)?.title }}
-</h1>
-<div (click)="showUpdErea=true">
-  Click here to change the Title.
-  <div *ngIf="showUpdErea">
-    <input type="text" placeholder="{{(constants | async)?.title}}" [(ngModel)]="newTitle">
-    <button (click)="updateTitle()">Update The Title</button>
-  </div>
-</div>
+<!--<div class=" mat-app-background">
+  <button md-icon-button [mdMenuTriggerFor]="menu">
+    <md-icon>more_vert</md-icon>
+  </button>
+  <md-menu #menu="mdMenu">
+    <button md-menu-item *ngFor="let item of items" (click)="navigate(item.url)">
+      <md-icon>{{item.icon}}</md-icon>
+      <span>{{item.text}}</span>
+    </button>
+  </md-menu>
+</div>-->
 
-<div>
-  <ul *ngFor="let item of items | async">
-    <li class="text" (click)="selectedMember = item">
-      {{item.$key}} - {{item.name}} - {{item.age}} - {{item.location}}
-    </li>
-    <button (click)="deleteItem(item)">Delete</button>
-  </ul>
-  <div *ngIf="selectedMember">
-    <app-member-detail [member]="selectedMember" [key]="selectedMember.$key"></app-member-detail>
-  </div>
-
-  <div>
-    <app-member-search></app-member-search>
-  </div>
-</div>
-
-<div *ngIf="!selectedMember">
-  <h3>New Member</h3>
-  <form #newMember="ngForm" (ngSubmit)="addItem();">
-    Name:     <input type="text" name="name" [(ngModel)]="newItem.name" required>
-    Age:      <input type="text" name="age" [(ngModel)]="newItem.age" required>
-    Location: <input type="text" name="location" [(ngModel)]="newItem.location">
-    <button type="submit" [disabled]="!newMember.form.valid">Add</button>
-  </form>
+<div style="width: 100%; background-color:lightgray">
+  <md-sidenav-container style="height:740px; background-color:lightblue">
+    <md-sidenav #sidenav mode="side" style="background-color: #DDBDF1;width:15%;">
+      <div class="example-scrolling-content" *ngFor="let item of items">
+        <button md-icon-button (click)="sidenav.toggle();navigate(item.url);">
+          <md-icon>{{item.icon}}</md-icon>
+          {{item.text}}
+        </button>
+      </div>
+    </md-sidenav>
+    <div class="example-scrolling-content">
+      <router-outlet>
+        <button md-icon-button (click)="sidenav.open()">
+          <md-icon>more_vert</md-icon>
+        </button>
+      </router-outlet>
+    </div>
+  </md-sidenav-container>
 </div>
