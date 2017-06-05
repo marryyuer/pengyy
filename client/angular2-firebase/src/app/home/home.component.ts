@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router, NavigationStart } from '@angular/router';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
 import * as moment from 'moment';
@@ -21,8 +21,7 @@ export class HomeComponent implements OnInit {
   newItem = new FamilyMember();
 
   constructor(db: AngularFireDatabase) {
-    // this.items = af.database.list('/family');
-    this.items = db.list('/family');
+    this.items = db.list('family');
     this.constants = db.object('/constants');
     console.log(moment('05', 'MM').format('MMMM'));
   }

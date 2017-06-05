@@ -13,29 +13,46 @@
   </div>
 </div>
 
-<div>
-  <div *ngFor="let item of items | async; let i = index; let items = items;">
-    <div (click)="selectedMember = item">
-      <md-icon>face</md-icon>
-      {{item.name}} - {{item.age}} - {{item.location}}
-      <button md-mini-fab (click)="deleteItem(item)"><md-icon>delete_forever</md-icon></button>
+<md-tab-group>
+  <md-tab>
+    <ng-template md-tab-label>
+      <md-icon>group</md-icon>
+      Members
+    </ng-template>
+    <h3>Current Memebers</h3>
+    <div>
+      <div *ngFor="let item of items | async; let i = index; let items = items;">
+        <div (click)="selectedMember = item">
+          <md-icon>face</md-icon>
+          {{item.name}} - {{item.age}} - {{item.location}}
+          <button md-mini-fab (click)="deleteItem(item)"><md-icon>delete_forever</md-icon></button>
+        </div>
+      </div>
+      <button typr="button" (click)="gotoAbout()">About</button>
     </div>
-  </div>
-  <div *ngIf="selectedMember">
-    <app-member-detail [member]="selectedMember" [key]="selectedMember.$key"></app-member-detail>
-  </div>
-
-  <div>
+  </md-tab>
+  <md-tab>
+    <ng-template md-tab-label>
+      <md-icon>face</md-icon> New Member
+    </ng-template>
+    <h3>Add new memeber</h3>
+    <div>
+      <app-member-info></app-member-info> 
+    </div>
+  </md-tab>
+  <md-tab>
+    <ng-template md-tab-label>
+      <md-icon>search</md-icon> Search for Member
+    </ng-template>
+    <h3>Search for memeber</h3>
     <app-member-search></app-member-search>
-  </div>
-</div>
+  </md-tab>
+</md-tab-group>
 
-<div *ngIf="!selectedMember">
-  <h3>New Member</h3>
-  <form #newMember="ngForm" (ngSubmit)="addItem();">
-    Name:     <input type="text" name="name" [(ngModel)]="newItem.name" required>
-    Age:      <input type="text" name="age" [(ngModel)]="newItem.age" required>
-    Location: <input type="text" name="location" [(ngModel)]="newItem.location">
-    <button type="submit" [disabled]="!newMember.form.valid">Add</button>
-  </form>
-</div>
+
+
+
+
+
+
+

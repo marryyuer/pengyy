@@ -6,19 +6,23 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { AboutComponent } from './about/about.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { OverviewComponent } from './overview/overview.component';
 
 import { AuthGuard } from './service/auth-guard.service';
 
 const routes: Routes = [
     {
         path: '',
-        redirectTo: 'about',
+        redirectTo: 'overview',
         pathMatch: 'full'
     },
     {
+        path: 'overview',
+        component: OverviewComponent
+    },
+    {
         path: 'about',
-        component: AboutComponent,
-        canActivate: [AuthGuard]
+        component: AboutComponent
     },
     {
         path: 'home',

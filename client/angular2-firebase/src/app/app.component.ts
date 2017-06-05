@@ -14,8 +14,12 @@ import * as moment from 'moment';
 })
 export class AppComponent {
   loginStatus = false;
-  items = [
+  loginItems = [
     {
+      icon: 'settings_overscan',
+      text: 'Overview',
+      url: 'overview',
+    }, {
       icon: 'home',
       text: 'HOME',
       url: 'home',
@@ -27,6 +31,21 @@ export class AppComponent {
       icon: 'power_settings_new',
       text: 'LogOut',
       url: 'logout'
+    }
+  ];
+  guestItems = [
+    {
+      icon: 'settings_overscan',
+      text: 'OVERVIEW',
+      url: 'overview',
+    }, {
+      icon: 'info',
+      text: 'ABOUT',
+      url: 'about'
+    }, {
+      icon: 'vpn_key',
+      text: 'LogIn',
+      url: 'login'
     }
   ];
   constructor(private auth: AngularFireAuth,
