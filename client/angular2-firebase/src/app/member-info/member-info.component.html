@@ -1,8 +1,11 @@
-<form [formGroup]="infoForm" (ngSubmit)="add();">
+<form [formGroup]="infoForm" (ngSubmit)="add();" #form="ngForm">
   <md-icon>account_box</md-icon>
   <md-input-container>
-    <input mdInput type="text" name="name" placeholder="name" formControlName="name">
+    <input mdInput type="text" placeholder="name" formControlName="name">
   </md-input-container>
+  <span *ngIf="infoForm.controls.name.hasError('duplicateUserName')">
+    current input name is already in use.
+  </span>
   <br>
   <md-icon>perm_contact_calendar</md-icon>
   <md-input-container>
@@ -18,8 +21,9 @@
   <br>
   <md-icon>location_on</md-icon>
   <md-input-container>
-    <input mdInput type="text" placeholder="location" fromControlName="location">
+    <input mdInput type="text" placeholder="Location" formControlName="location">
   </md-input-container>
   <br>
-  <button type="submit" [disabled]="!infoForm.valid">{{action}}</button>
+  <button md-raised-button type="button" (click)="form.reset()" [disabled]="!infoForm.dirty">Reset</button>
+  <button md-raised-button type="submit" [disabled]="!infoForm.valid">{{action}}</button>
 </form>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { EmailValidator } from '../validators/emailValidator';
 import { AuthService } from '../service/auth.service';
 
@@ -15,9 +15,9 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(private fb: FormBuilder,
-              private router: Router,
-              private authService: AuthService,
-              private snack: MdSnackBar) { }
+    private router: Router,
+    private authService: AuthService,
+    private snack: MdSnackBar) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -31,10 +31,10 @@ export class LoginComponent implements OnInit {
       console.log(this.loginForm.value);
     } else {
       this.authService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value)
-          .then(() => this.router.navigate(['/home']))
-          .catch(err => {
-            this.snack.open(err.message, 'undo', { duration: 3000 });
-          });
+        .then(() => this.router.navigate(['/home']))
+        .catch(err => {
+          this.snack.open(err.message, 'undo', { duration: 3000 });
+        });
     }
   }
 

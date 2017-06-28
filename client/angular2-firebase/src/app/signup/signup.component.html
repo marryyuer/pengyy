@@ -5,11 +5,19 @@
       <input mdInput type="email" placeholder="Email" formControlName="email">
     </md-input-container>
     <br>
-    <md-icon>vpn_key</md-icon>
-    <md-input-container>
-      <input mdInput type="password" placeholder="Password" formControlName="password">
-    </md-input-container>
-    <br>
+    <div formGroupName="secret">
+      <md-icon>vpn_key</md-icon>
+      <md-input-container>
+        <input mdInput type="password" placeholder="Password" formControlName="password">
+      </md-input-container>
+      <br>
+      <md-icon>confirmation_number</md-icon>
+      <md-input-container>
+        <input mdInput type="password" placeholder="Password Confirm" formControlName="confirm">
+      </md-input-container>
+      <span *ngIf="signUpForm.get('secret').hasError('mismatch')" mdTooltip="Tooltip!" [mdTooltipPosition]="'after'">Password don't match!</span>
+      <br>
+    </div>
     <button md-raised-button type="submit">Sign Up</button>
     <button md-raised-button type="button" (click)="gotoLogin()">Back to Login</button>
   </form>

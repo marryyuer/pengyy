@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 
+import { FamilyMember } from '../model/family-member';
 import * as firebase from 'firebase';
 
 @Injectable()
 export class AuthService {
-
-  constructor(private auth: AngularFireAuth) { }
+  user: FamilyMember;
+  constructor(private auth: AngularFireAuth) {}
 
   login(email: string, password: string): firebase.Promise<any> {
     return this.auth.auth.signInWithEmailAndPassword(email, password);

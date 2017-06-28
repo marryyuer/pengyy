@@ -5,15 +5,15 @@
 <h1>
   {{ (constants | async)?.title }}
 </h1>
-<div (click)="showUpdErea=true">
+<div (click)="showUpdArea=true">
   Click here to change the Title.
-  <div *ngIf="showUpdErea">
+  <div *ngIf="showUpdArea">
     <input type="text" placeholder="{{(constants | async)?.title}}" [(ngModel)]="newTitle">
     <button (click)="updateTitle()">Update The Title</button>
   </div>
 </div>
 
-<md-tab-group>
+<md-tab-group [selectedIndex]="selectedIndex">
   <md-tab>
     <ng-template md-tab-label>
       <md-icon>group</md-icon>
@@ -28,7 +28,6 @@
           <button md-mini-fab (click)="deleteItem(item)"><md-icon>delete_forever</md-icon></button>
         </div>
       </div>
-      <button typr="button" (click)="gotoAbout()">About</button>
     </div>
   </md-tab>
   <md-tab>

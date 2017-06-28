@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RoutesRecognized, NavigationEnd } from '@angular/router';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { FamilyMember } from './model/family-member';
@@ -56,6 +56,12 @@ export class AppComponent {
         this.loginStatus = false;
       } else {
         this.loginStatus = true;
+      }
+    });
+
+    this.router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd) {
+        console.log(e.url);
       }
     });
   }

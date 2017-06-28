@@ -12,26 +12,22 @@ import { FamilyMember } from '../model/family-member';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  showUpdErea = false;
+  showUpdArea = false;
   newTitle = '';
+  selectedIndex = 0;
   items: FirebaseListObservable<any[]>;
   constants: FirebaseObjectObservable<any>;
 
   selectedMember: FirebaseListObservable<any>;
   newItem = new FamilyMember();
 
-  constructor(db: AngularFireDatabase) {
-    this.items = db.list('family');
-    this.constants = db.object('/constants');
+  constructor(private db: AngularFireDatabase, private router: Router) {
+    this.items = this.db.list('family');
+    this.constants = this.db.object('/constants');
     console.log(moment('05', 'MM').format('MMMM'));
   }
 
   ngOnInit() {
-  }
-
-  addItem() {
-    this.items.push(this.newItem);
-    this.newItem = new FamilyMember();
   }
 
   deleteItem(key: string) {
@@ -40,7 +36,7 @@ export class HomeComponent implements OnInit {
 
   updateTitle() {
     this.constants.update({'title': this.newTitle}).then(() => {
-      this.showUpdErea = false;
+      this.showUpdArea = false;
     });
   }
 }

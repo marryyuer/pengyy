@@ -1,8 +1,11 @@
 <div>
-    <input type="text" [(ngModel)]="name">
-    <button (click)="doSearch()">Search</button>
-    <div *ngFor="let member of results | async">
-        {{member.name}} = {{member.age}} = {{member.location}}
-    </div>
-    <!--<button (click)="doDelete()">Delete</button>-->
+    <md-input-container>
+        <input mdInput placeholder="Name" [mdAutocomplete]="auto" [formControl]="name">
+    </md-input-container>
+
+    <md-autocomplete #auto="mdAutocomplete">
+        <md-option *ngFor="let member of results | async" [value]="member.name">
+            {{member.name}}({{member.location}})
+        </md-option>
+    </md-autocomplete>
 </div>
