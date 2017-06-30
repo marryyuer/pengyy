@@ -10,9 +10,11 @@
       <input mdInput type="password" placeholder="Password" formControlName="password">
     </md-input-container>
     <br>
-    <button type="submit">Login</button><br>  
+    <button md-raised-button type="submit">Login</button>
+    <br>  
   </form>
-
-  <button type="button" (click)="resetPassword()">Reset Password</button>
-  <button type="button" (click)="signUp()">Sign Up</button>
+  <div style="width: 100%; text-align:right;">
+    <a [routerLink]="['/reset']">Reset Password</a>
+    <a [routerLink]="['/signup']">Sign Up</a>
+  </div>
 </div>

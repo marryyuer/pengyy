@@ -19,15 +19,24 @@
       <md-icon>group</md-icon>
       Members
     </ng-template>
-    <h3>Current Memebers</h3>
     <div>
-      <div *ngFor="let item of items | async; let i = index; let items = items;">
-        <div (click)="selectedMember = item">
+      <!--<div *ngFor="let item of items | async; let i = index; let items = items;">
+        <div (click)="showMemberDetail(item)">
           <md-icon>face</md-icon>
           {{item.name}} - {{item.age}} - {{item.location}}
-          <button md-mini-fab (click)="deleteItem(item)"><md-icon>delete_forever</md-icon></button>
+          
         </div>
-      </div>
+      </div>-->
+      <md-list style="width:300px;">
+        <h3 md-subheader>Members</h3>
+        <md-list-item *ngFor="let item of items | async" (click)="showMemberDetail(item)">
+          <md-icon md-list-icon>face</md-icon>
+          <h4 md-line>{{item.name}}</h4>
+          <p md-line> {{item.age}} </p>
+          <button md-button (click)="editItem(item);$event.stopPropagation();"><md-icon>mode_edit</md-icon></button>
+          <button md-button (click)="deleteItem(item);$event.stopPropagation();"><md-icon>delete_forever</md-icon></button>
+        </md-list-item>
+      </md-list>
     </div>
   </md-tab>
   <md-tab>
@@ -47,11 +56,3 @@
     <app-member-search></app-member-search>
   </md-tab>
 </md-tab-group>
-
-
-
-
-
-
-
-

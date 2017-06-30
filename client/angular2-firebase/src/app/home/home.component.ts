@@ -4,6 +4,10 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
 
 import * as moment from 'moment';
 
+import { MemberDetailComponent } from '../member-detail/member-detail.component';
+import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component';
+import {MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
+
 import { FamilyMember } from '../model/family-member';
 
 @Component({
@@ -21,7 +25,9 @@ export class HomeComponent implements OnInit {
   selectedMember: FirebaseListObservable<any>;
   newItem = new FamilyMember();
 
-  constructor(private db: AngularFireDatabase, private router: Router) {
+  constructor(private db: AngularFireDatabase,
+              private router: Router,
+              private dialog: MdDialog) {
     this.items = this.db.list('family');
     this.constants = this.db.object('/constants');
     console.log(moment('05', 'MM').format('MMMM'));
@@ -30,13 +36,35 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
-  deleteItem(key: string) {
-    this.items.remove(key);
+  deleteItem(member: any) {
+    const config = new MdDialogConfig();
+    config.data = {
+      icon: 'delete_forever',
+      message: 'Are you sure to delete user: ' + member.name + '?'
+    };
+    config.width = '500px';
+    config.height = '210px';
+    const dialogRef = this.dialog.open(DialogConfirmComponent, config);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'confirm') {
+        this.items.remove(member);
+      }
+    });
   }
 
   updateTitle() {
     this.constants.update({'title': this.newTitle}).then(() => {
       this.showUpdArea = false;
     });
+  }
+
+  editItem() {
+
+  }
+  
+  showMemberDetail(member: FamilyMember) {
+    const config = new MdDialogConfig();
+    config.data = member;
+    this.dialog.open(MemberDetailComponent, config);
   }
 }

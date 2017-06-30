@@ -37,12 +37,4 @@ export class LoginComponent implements OnInit {
         });
     }
   }
-
-  resetPassword() {
-    this.router.navigateByUrl('/reset');
-  }
-
-  signUp() {
-    this.router.navigateByUrl('/signup');
-  }
 }

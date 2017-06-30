@@ -28,6 +28,8 @@ import { AboutComponent } from './about/about.component';
 import { ErrorComponent } from './error/error.component';
 import { OverviewComponent } from './overview/overview.component';
 import { MemberInfoComponent } from './member-info/member-info.component';
+import { MemberDetailComponent } from './member-detail/member-detail.component';
+import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,13 @@ import { MemberInfoComponent } from './member-info/member-info.component';
     AboutComponent,
     ErrorComponent,
     OverviewComponent,
-    MemberInfoComponent
+    MemberInfoComponent,
+    MemberDetailComponent,
+    DialogConfirmComponent
+  ],
+  entryComponents: [
+    MemberDetailComponent,
+    DialogConfirmComponent
   ],
   imports: [
     BrowserModule,
