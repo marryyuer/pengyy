@@ -4,6 +4,7 @@ import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable }
 
 import * as moment from 'moment';
 
+import { MemberInfoComponent } from '../member-info/member-info.component';
 import { MemberDetailComponent } from '../member-detail/member-detail.component';
 import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component';
 import {MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
@@ -58,10 +59,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  editItem() {
-
+  editItem(item: FamilyMember) {
+    const config = new MdDialogConfig();
+    config.data = item;
+    config.disableClose = true;
+    this.dialog.open(MemberInfoComponent, config);
   }
-  
+
   showMemberDetail(member: FamilyMember) {
     const config = new MdDialogConfig();
     config.data = member;

@@ -48,7 +48,8 @@ import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.componen
   ],
   entryComponents: [
     MemberDetailComponent,
-    DialogConfirmComponent
+    DialogConfirmComponent,
+    MemberInfoComponent
   ],
   imports: [
     BrowserModule,

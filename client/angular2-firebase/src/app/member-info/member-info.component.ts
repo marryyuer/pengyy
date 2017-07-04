@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, ViewChild, Inject, forwardRef, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Optional, Inject, forwardRef, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { HomeComponent } from '../home/home.component';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
-import { MdSnackBar} from '@angular/material';
+import { MdSnackBar, MD_DIALOG_DATA} from '@angular/material';
 import { EmailValidator } from '../validators/emailValidator';
 import { AsyncValidatorService } from '../service/validator.service';
 import { FamilyMember } from '../model/family-member';
@@ -17,19 +17,20 @@ import * as moment from 'moment';
 })
 export class MemberInfoComponent implements OnInit {
   infoForm: FormGroup;
-  @Input() member: FamilyMember;
-  @Input() key: string;
+  member: FamilyMember;
   @ViewChild("form") form;
   action: string;
   constructor(private fb: FormBuilder,
-              @Inject(forwardRef(() => HomeComponent)) private homeComponent: HomeComponent,
+              @Optional() @Inject(forwardRef(() => HomeComponent)) private homeComponent: HomeComponent,
+              @Optional() @Inject(MD_DIALOG_DATA) public data: any,
               private cdr: ChangeDetectorRef,
               private db: AngularFireDatabase,
               private snack: MdSnackBar) {
-    if (!this.member) {
+    if (!this.data) {
       this.action = 'ADD';
     } else {
       this.action = 'UPDATE';
+      this.member = this.data;
     }
 
     this.infoForm = this.fb.group({
@@ -72,7 +73,11 @@ export class MemberInfoComponent implements OnInit {
         });
   }
 
+  reset() {
+    this.form.reset();
+  }
+
   doUpdate() {
-      this.db.list('/family').update(this.key, this.member);
+      // this.db.list('/family').update(this.key, this.member);
   }
 }
