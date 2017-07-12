@@ -2,8 +2,9 @@ import { Component, Input, OnInit, ViewChild, Optional, Inject, forwardRef, Chan
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { HomeComponent } from '../home/home.component';
+import { MapComponent } from '../map/map.component';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
-import { MdSnackBar, MD_DIALOG_DATA} from '@angular/material';
+import { MdDialog, MdDialogConfig, MdDialogRef, MdSnackBar, MD_DIALOG_DATA} from '@angular/material';
 import { EmailValidator } from '../validators/emailValidator';
 import { AsyncValidatorService } from '../service/validator.service';
 import { FamilyMember } from '../model/family-member';
@@ -20,9 +21,12 @@ export class MemberInfoComponent implements OnInit {
   member: FamilyMember;
   @ViewChild("form") form;
   action: string;
+  autocomplete: google.maps.places.Autocomplete;
   constructor(private fb: FormBuilder,
               @Optional() @Inject(forwardRef(() => HomeComponent)) private homeComponent: HomeComponent,
               @Optional() @Inject(MD_DIALOG_DATA) public data: any,
+              @Optional() private dialogRef: MdDialogRef<MemberInfoComponent>,
+              private dialog: MdDialog,
               private cdr: ChangeDetectorRef,
               private db: AngularFireDatabase,
               private snack: MdSnackBar) {
@@ -46,7 +50,32 @@ export class MemberInfoComponent implements OnInit {
 
   }
 
-  add() {
+  initialized(autocomplete: any) {
+    this.autocomplete = autocomplete;
+  }
+
+  placeChanged(place: any) {
+
+  }
+
+  submit() {
+    if (this.action === 'ADD') {
+      this.doAdd();
+    } else {
+      this.doUpdate();
+    }
+  }
+
+  showMap() {
+    const config = new MdDialogConfig();
+    config.disableClose = true;
+    const mapDialog = this.dialog.open(MapComponent, config);
+    mapDialog.afterClosed().subscribe(result => {
+      console.log(result);
+    });
+  }
+
+  doAdd() {
     if (!this.infoForm.valid) {
       this.snack.open('Invalid input, please confirm again!', '', { duration: 3000});
       return false;
@@ -67,6 +96,7 @@ export class MemberInfoComponent implements OnInit {
           console.log(this.homeComponent.selectedIndex);
           // this.homeComponent.selectedIndex = 0;
           this.cdr.detectChanges();
+          this.dialogRef.close('saved');
         })
         .catch(err => {
           this.snack.open(err.message, 'OK', { duration: 3000});
@@ -78,6 +108,19 @@ export class MemberInfoComponent implements OnInit {
   }
 
   doUpdate() {
-      // this.db.list('/family').update(this.key, this.member);
+    this.member.name = this.infoForm.controls.name.value;
+    this.member.birthday = this.infoForm.controls.birthday.value;
+    this.member.age = moment().diff(this.infoForm.controls.birthday.value, 'years');
+    this.member.email = this.infoForm.controls.email.value;
+    this.member.location = this.infoForm.controls.location.value;
+
+    this.db.list('/family').update(this.data.$key, this.member)
+        .then(() => {
+          this.snack.open('Member information updating succeed!', 'OK', { duration: 5000});
+          this.dialogRef.close('OK');
+        })
+        .catch(err => {
+          this.snack.open('Member information updating failed!', 'OK', { duration: 5000});
+        })
   }
 }
