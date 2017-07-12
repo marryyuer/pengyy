@@ -1,0 +1,24 @@
+<div>
+  <md-icon>satellite</md-icon><b>Map</b><br>
+  <ngui-map style="width:400px;height:500px;" zoom="14" center="center" 
+    (mapClick)="setMarker($event)"
+    (mapReady$)="onMapReady($event)"
+    mapTypeId="roadmap">
+    <!--<custom-marker *ngIf="position" 
+      [position]="position.lat + ',' + position.lng">
+      <md-icon>home</md-icon>
+    </custom-marker>-->
+    <marker *ngFor="let position of getMarkers()" 
+      [position]="[position.lat, position.lng]"
+      (initialized$)="onMarkerInit($event)"
+      (click)="showInfoWindow($event)">
+    </marker>
+    <info-window id="iw">
+      <div *ngIf="position">
+        lat: {{ position.lat }}, lng: {{ position.lng }}
+      </div>
+    </info-window>
+  </ngui-map>
+  <button md-raised-button type="button"  md-dialog-close="cancel">OK</button>
+  <button md-raised-button type="button"  md-dialog-close="cancel">Cancel</button>
+</div>
