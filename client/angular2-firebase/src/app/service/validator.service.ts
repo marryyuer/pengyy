@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FamilyMember } from '../model/family-member';
 import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 export class AsyncValidatorService {
@@ -11,13 +12,13 @@ export class AsyncValidatorService {
     static duplicateUserName(database) {
         return function(control: FormControl): Promise<any> {
             return new Promise((resolve) => {
-                database.list('/family', {
+                let $family = database.list('/family', {
                     query: {
                         orderByChild: 'name',
                         equalTo: control.value
                     }
-                })
-                .debounceTime(500)
+                });
+                $family.debounceTime(1000)
                 .distinctUntilChanged()
                 .subscribe((result: FamilyMember[]) => {
                     if (result && result.length > 0) {
