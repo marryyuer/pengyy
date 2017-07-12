@@ -7,7 +7,7 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule, MdDatepickerModule, MdNativeDateModule } from '@angular/material';
 
 import { FileUploadModule } from 'ng2-file-upload';
-
+import { NguiMapModule } from '@ngui/map';
 
 import { AppRoutingModule } from './app.routing';
 
@@ -20,6 +20,7 @@ import { MemberSearchComponent } from './member-search/member-search.component';
 
 import { AuthGuard } from './service/auth-guard.service';
 import { AuthService } from './service/auth.service';
+import { TitleService } from './service/title.service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -30,6 +31,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { MemberInfoComponent } from './member-info/member-info.component';
 import { MemberDetailComponent } from './member-detail/member-detail.component';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
@@ -44,12 +46,14 @@ import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.componen
     OverviewComponent,
     MemberInfoComponent,
     MemberDetailComponent,
-    DialogConfirmComponent
+    DialogConfirmComponent,
+    MapComponent
   ],
   entryComponents: [
     MemberDetailComponent,
     DialogConfirmComponent,
-    MemberInfoComponent
+    MemberInfoComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +61,9 @@ import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.componen
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpModule,
+    NguiMapModule.forRoot({
+      apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyDlXwl2JmBIyPpY0ON3ciWvJj7gFP0Sd-E&libraries=visualization,places,drawing'
+    }),
     MaterialModule,
     MdDatepickerModule,
     MdNativeDateModule,
@@ -66,7 +73,11 @@ import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.componen
     AngularFireAuthModule,
     FileUploadModule
   ],
-  providers: [AuthGuard, AuthService],
+  providers: [
+    AuthGuard,
+    AuthService,
+    TitleService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
