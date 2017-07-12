@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router, RoutesRecognized, NavigationEnd } from '@angular/router';
 import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { FamilyMember } from './model/family-member';
 import { AuthService } from './service/auth.service';
+
+import { MdDialog, MdDialogConfig } from '@angular/material';
+import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
 
 import * as moment from 'moment';
 
@@ -50,7 +53,8 @@ export class AppComponent {
   ];
   constructor(private auth: AngularFireAuth,
               private router: Router,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private dialog: MdDialog) {
     this.auth.authState.subscribe(user => {
       if (!user) {
         this.loginStatus = false;
@@ -76,5 +80,21 @@ export class AppComponent {
     }
 
     this.router.navigate(['./' + url]);
+  }
+
+  @HostListener('window: beforeunload', ['$event'])
+  confirm(event) {
+    return event.returnValue = false;
+    // const config = new MdDialogConfig();
+    // config.data = {
+    //   message: 'Are you sure to leave the site?',
+    //   icon: 'info'
+    // };
+    // let dialogRef = this.dialog.open(DialogConfirmComponent, config);
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if (result === 'cancel') {
+    //     event.preventDefault();
+    //   }
+    // });
   }
 }
