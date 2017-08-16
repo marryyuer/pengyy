@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, Optional, Inject, forwardRef, ChangeDetectorRef } from '@angular/core';
+import { Component, Renderer2, Input, OnInit, ViewChild, Optional, Inject, forwardRef, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 import { HomeComponent } from '../home/home.component';
@@ -8,6 +8,7 @@ import { MdDialog, MdDialogConfig, MdDialogRef, MdSnackBar, MD_DIALOG_DATA} from
 import { EmailValidator } from '../validators/emailValidator';
 import { AsyncValidatorService } from '../service/validator.service';
 import { FamilyMember } from '../model/family-member';
+import { Place } from '../model/place';
 
 import * as moment from 'moment';
 
@@ -29,6 +30,7 @@ export class MemberInfoComponent implements OnInit {
               private dialog: MdDialog,
               private cdr: ChangeDetectorRef,
               private db: AngularFireDatabase,
+              private renderer2: Renderer2,
               private snack: MdSnackBar) {
     if (!this.data) {
       this.action = 'ADD';
@@ -41,13 +43,13 @@ export class MemberInfoComponent implements OnInit {
       name: [this.member ? this.member.name : '', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(15)]), AsyncValidatorService.duplicateUserName(this.db)],
       birthday: [this.member ? this.member.birthday : '', Validators.required],
       email: [this.member ? this.member.email : '', Validators.compose([Validators.required, EmailValidator.isValid])],
-      location: [this.member ? this.member.location : ''],
+      location: [this.member ? this.member.location.detail : ''],
       test: ['']
     });
   }
 
   ngOnInit() {
-
+    
   }
 
   initialized(autocomplete: any) {
@@ -68,10 +70,13 @@ export class MemberInfoComponent implements OnInit {
 
   showMap() {
     const config = new MdDialogConfig();
+    config.data = {location: this.infoForm.controls.location.value};
     config.disableClose = true;
     const mapDialog = this.dialog.open(MapComponent, config);
-    mapDialog.afterClosed().subscribe(result => {
-      console.log(result);
+    mapDialog.afterClosed().subscribe((result: any) => {
+      if (result !== 'cancel') {
+        this.infoForm.controls.location.patchValue(result);
+      }
     });
   }
 
@@ -88,15 +93,16 @@ export class MemberInfoComponent implements OnInit {
     this.member.email = this.infoForm.controls.email.value;
     this.member.location = this.infoForm.controls.location.value;
 
-    this.db.list('/family').push(this.member)
+    this.db.list('family/members').push(this.member)
         .then(() => {
           this.snack.open('Welcome our new member: ' + this.member.name, 'OK', { duration: 5000});
           // this.infoForm.reset();
           this.form.resetForm();
-          console.log(this.homeComponent.selectedIndex);
           // this.homeComponent.selectedIndex = 0;
           this.cdr.detectChanges();
-          this.dialogRef.close('saved');
+          if (this.dialogRef) {
+            this.dialogRef.close('saved');
+          }
         })
         .catch(err => {
           this.snack.open(err.message, 'OK', { duration: 3000});
@@ -114,7 +120,7 @@ export class MemberInfoComponent implements OnInit {
     this.member.email = this.infoForm.controls.email.value;
     this.member.location = this.infoForm.controls.location.value;
 
-    this.db.list('/family').update(this.data.$key, this.member)
+    this.db.list('/family／members').update(this.data.$key, this.member)
         .then(() => {
           this.snack.open('Member information updating succeed!', 'OK', { duration: 5000});
           this.dialogRef.close('OK');

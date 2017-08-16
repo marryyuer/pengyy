@@ -3,5 +3,27 @@
   <span>About Us</span>
 </div>
 <p>
-  about works!
+  This is an web app where we learn <b><a target="about:blank" href="https://angular.io/">Angular</a></b>.
 </p>
+
+<md-icon>contacts</md-icon>
+<span>Contact</span>
+<div>
+  If you want to contact us for advices and suggestions, please click the <md-icon>contacts</md-icon> button below and send your messages at the dialog.
+  <br>
+  <button md-button (click)="openContact()">
+    <md-icon>contacts</md-icon>
+    Contact
+  </button>
+</div>
+<br>
+<md-icon>reorder</md-icon>
+<span>Current Proposals</span>
+<md-list style="width:80%">
+  <md-list-item *ngFor="let proposal of proposals | async">
+    <md-icon md-list-icon>fiber_manual_record</md-icon>
+    <h4 md-line>{{proposal.title}}</h4>
+    <p md-line> {{proposal.detail}} </p>
+    <md-icon (click)="proposal.favorite = !!!proposal.favorite">{{proposal.favorite? 'favorite' : 'favorite_border'}}</md-icon>
+  </md-list-item>
+</md-list>

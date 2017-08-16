@@ -33,7 +33,7 @@ export class MemberSearchComponent implements OnInit {
     ngOnInit() { }
 
     doSearch() {
-        this.results = this.db.list('/family', {
+        this.results = this.db.list('family/members', {
             query: {
                 orderByChild: 'name',
                 equalTo: this.name.value

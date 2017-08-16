@@ -1,6 +1,6 @@
 <div>
   <md-icon>satellite</md-icon><b>Map</b><br>
-  <ngui-map style="width:400px;height:500px;" zoom="14" center="center" 
+  <ngui-map style="width:400px;height:500px;" zoom="14" [center]="center" 
     (mapClick)="setMarker($event)"
     (mapReady$)="onMapReady($event)"
     mapTypeId="roadmap">
@@ -15,10 +15,11 @@
     </marker>
     <info-window id="iw">
       <div *ngIf="position">
-        lat: {{ position.lat }}, lng: {{ position.lng }}
+        lat: {{ position.lat }}, lng: {{ position.lng }} <br>
+        detail address: {{position.detail}}
       </div>
     </info-window>
   </ngui-map>
-  <button md-raised-button type="button"  md-dialog-close="cancel">OK</button>
+  <button md-raised-button type="button"  (click)="setToParent()">OK</button>
   <button md-raised-button type="button"  md-dialog-close="cancel">Cancel</button>
 </div>

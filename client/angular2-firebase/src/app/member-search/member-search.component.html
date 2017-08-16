@@ -5,7 +5,7 @@
 
     <md-autocomplete #auto="mdAutocomplete">
         <md-option *ngFor="let member of results | async" [value]="member.name">
-            {{member.name}}({{member.location}})
+            {{member.name}}({{member.location.detail}})
         </md-option>
     </md-autocomplete>
 </div>

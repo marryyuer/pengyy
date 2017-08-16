@@ -12,7 +12,7 @@ export class AsyncValidatorService {
     static duplicateUserName(database) {
         return function(control: FormControl): Promise<any> {
             return new Promise((resolve) => {
-                let $family = database.list('/family', {
+                let $family = database.list('family/members', {
                     query: {
                         orderByChild: 'name',
                         equalTo: control.value

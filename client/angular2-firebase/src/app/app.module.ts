@@ -4,8 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 
-import { MaterialModule, MdDatepickerModule, MdNativeDateModule } from '@angular/material';
-
+import { MaterialModule, MdDatepickerModule, MdNativeDateModule, MdTableModule } from '@angular/material';
+import { CdkTableModule } from '@angular/cdk';
 import { FileUploadModule } from 'ng2-file-upload';
 import { NguiMapModule } from '@ngui/map';
 
@@ -32,6 +32,7 @@ import { MemberInfoComponent } from './member-info/member-info.component';
 import { MemberDetailComponent } from './member-detail/member-detail.component';
 import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
 import { MapComponent } from './map/map.component';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -47,13 +48,15 @@ import { MapComponent } from './map/map.component';
     MemberInfoComponent,
     MemberDetailComponent,
     DialogConfirmComponent,
-    MapComponent
+    MapComponent,
+    ContactComponent
   ],
   entryComponents: [
     MemberDetailComponent,
     DialogConfirmComponent,
     MemberInfoComponent,
-    MapComponent
+    MapComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
@@ -67,6 +70,8 @@ import { MapComponent } from './map/map.component';
     MaterialModule,
     MdDatepickerModule,
     MdNativeDateModule,
+    MdTableModule,
+    CdkTableModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,

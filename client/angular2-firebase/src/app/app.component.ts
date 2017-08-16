@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { Router, RoutesRecognized, NavigationEnd } from '@angular/router';
-import { AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+
+import { PlatformLocation } from '@angular/common';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { FamilyMember } from './model/family-member';
 import { AuthService } from './service/auth.service';
@@ -51,11 +52,11 @@ export class AppComponent {
       url: 'login'
     }
   ];
-  constructor(private auth: AngularFireAuth,
-              private router: Router,
+  constructor(private router: Router,
               private authService: AuthService,
-              private dialog: MdDialog) {
-    this.auth.authState.subscribe(user => {
+              private dialog: MdDialog,
+              private location: PlatformLocation) {
+    this.authService.authenticate().subscribe(user => {
       if (!user) {
         this.loginStatus = false;
       } else {
@@ -67,6 +68,10 @@ export class AppComponent {
       if (e instanceof NavigationEnd) {
         console.log(e.url);
       }
+    });
+    this.location.onPopState(() => {
+      console.log('PopState triggered!');
+      console.log(this.location);
     });
   }
 
@@ -82,8 +87,10 @@ export class AppComponent {
     this.router.navigate(['./' + url]);
   }
 
-  @HostListener('window: beforeunload', ['$event'])
+  @HostListener('window: unload', ['$event'])
   confirm(event) {
+    // window.open('https://192.168.5.76:4200', '_blank');
+    // window.close();
     return event.returnValue = false;
     // const config = new MdDialogConfig();
     // config.data = {

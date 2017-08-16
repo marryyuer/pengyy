@@ -2,7 +2,7 @@
   <md-sidenav-container style="height:740px; background-color:lightblue">
     <md-sidenav #sidenav mode="side" style="background-color: #DDBDF1;width:15%;">
       <div *ngIf="loginStatus; else guestMenu;">
-        <div class="example-scrolling-content" *ngFor="let item of loginItems">
+        <div *ngFor="let item of loginItems">
           <button md-icon-button (click)="sidenav.toggle();navigate(item.url);">
             <md-icon>{{item.icon}}</md-icon>
             {{item.text}}
@@ -10,7 +10,7 @@
         </div>
       </div>
       <ng-template #guestMenu>
-        <div class="example-scrolling-content" *ngFor="let item of guestItems">
+        <div *ngFor="let item of guestItems">
           <button md-icon-button (click)="sidenav.toggle();navigate(item.url);">
             <md-icon>{{item.icon}}</md-icon>
             {{item.text}}
@@ -18,10 +18,11 @@
         </div>
       </ng-template>
     </md-sidenav>
-    <div class="example-scrolling-content">
+    <div>
       <router-outlet>
         <button md-icon-button (click)="sidenav.open()">
           <md-icon>more_vert</md-icon>
+          Menu
         </button>
       </router-outlet>
     </div>

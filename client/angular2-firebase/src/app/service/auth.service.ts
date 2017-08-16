@@ -9,6 +9,10 @@ export class AuthService {
   user: FamilyMember;
   constructor(private auth: AngularFireAuth) {}
 
+  authenticate() {
+    return this.auth.authState;
+  }
+
   login(email: string, password: string): firebase.Promise<any> {
     return this.auth.auth.signInWithEmailAndPassword(email, password);
   }

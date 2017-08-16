@@ -2,16 +2,19 @@
   <md-icon class="md-20">home</md-icon>
   <span>Home Page</span>
 </div>
-<h1>
-  {{ (constants | async)?.title }}
-</h1>
-<div (click)="showUpdArea=true">
-  Click here to change the Title.
-  <div *ngIf="showUpdArea">
-    <input type="text" placeholder="{{(constants | async)?.title}}" [(ngModel)]="newTitle">
-    <button (click)="updateTitle()">Update The Title</button>
-  </div>
+
+<div *ngIf="showTitleArea; else editMode;" mdTooltip="click to change the title" mdTooltipPosition="right" (click)="showTitleArea=false;">
+  <h1>
+    {{ (constants | async)?.title }}
+  </h1>
 </div>
+<ng-template #editMode>
+  <md-input-container>
+    <input mdInput placeholder="{{(constants | async)?.title}}" [(ngModel)]="newTitle" required>
+  </md-input-container>
+  <button md-button (click)="updateTitle()">Update The Title</button>
+  <button md-button (click)="showTitleArea=true;">Cancel</button>
+</ng-template>
 
 <md-tab-group [selectedIndex]="selectedIndex">
   <md-tab>
@@ -19,18 +22,58 @@
       <md-icon>group</md-icon>
       Members
     </ng-template>
-    <div>
-      <md-list style="width:500px;">
-        <h3 md-subheader>Members</h3>
-        <md-list-item *ngFor="let item of items | async" >
-          <md-icon md-list-icon>face</md-icon>
-          <h4 md-line>{{item.name}}</h4>
-          <p md-line> {{item.age}} </p>
-          <button md-button mdTooltip="detail" mdTooltipPosition="after" mdTooltipShowDelay="1000" (click)="showMemberDetail(item)"><md-icon>description</md-icon></button>
-          <button md-button mdTooltip="edit" mdTooltipPosition="after" mdTooltipShowDelay="1000" (click)="editItem(item)"><md-icon>mode_edit</md-icon></button>
-          <button md-button mdTooltip="delete" mdTooltipPosition="after" mdTooltipShowDelay="1000" (click)="deleteItem(item)"><md-icon>delete_forever</md-icon></button>
-        </md-list-item>
-      </md-list>
+    <h3 md-subheader>Members</h3>
+    <p>Please choose how to show members:</p>
+    <md-select placeholder="Select Display Mode" [(ngModel)]="displayMode" name="displayMode">
+      <md-option *ngFor="let mode of modes" [value]="mode">
+        {{mode}}
+      </md-option>
+    </md-select>
+    <div [ngSwitch]="displayMode">
+      <div *ngSwitchCase="'list'">
+        <md-list style="width:500px;">
+          <md-list-item *ngFor="let item of items | async">
+            <md-icon md-list-icon>face</md-icon>
+            <h4 md-line>{{item.name}}</h4>
+            <p md-line> {{item.age}} </p>
+            <button md-icon-button #tooltip="mdTooltip" mdTooltip="detail" mdTooltipPosition="after" mdTooltipShowDelay="1000" (click)="showMemberDetail(item)"><md-icon>description</md-icon></button>
+            <button md-icon-button mdTooltip="edit" mdTooltipPosition="after" mdTooltipShowDelay="1000" (click)="editItem(item)"><md-icon>mode_edit</md-icon></button>
+            <button md-icon-button mdTooltip="delete" mdTooltipPosition="after" mdTooltipShowDelay="1000" (click)="deleteItem(item)"><md-icon>delete_forever</md-icon></button>
+          </md-list-item>
+        </md-list>
+      </div>
+      <div *ngSwitchCase="'table'">
+        <md-table style="width:600px;" [dataSource]="userDataSouce">
+          <ng-container cdkColumnDef="name">
+            <md-header-cell *cdkHeaderCellDef>Name</md-header-cell>
+            <md-cell *cdkCellDef="let member">{{member.name}}</md-cell>
+          </ng-container>
+          <ng-container cdkColumnDef="age">
+            <md-header-cell *cdkHeaderCellDef>Age</md-header-cell>
+            <md-cell *cdkCellDef="let member">{{member.age}}</md-cell>
+          </ng-container>
+          <ng-container cdkColumnDef="location">
+            <md-header-cell *cdkHeaderCellDef>Location</md-header-cell>
+            <md-cell *cdkCellDef="let member">{{member.location.detail}}</md-cell>
+          </ng-container>
+          <ng-container cdkColumnDef="operation">
+            <md-header-cell *cdkHeaderCellDef>Operation</md-header-cell>
+            <md-cell *cdkCellDef="let member">
+              <button md-mini-fab type="button" (click)="showMemberDetail(member)">
+                <md-icon >description</md-icon>
+              </button>
+              <button md-mini-fab type="button" (click)="editItem(member)">
+                <md-icon >mode_edit</md-icon>
+              </button>
+              <button md-mini-fab type="button" (click)="deleteItem(member)">
+                <md-icon >delete_forever</md-icon>
+              </button>
+            </md-cell>
+          </ng-container>
+          <md-header-row *cdkHeaderRowDef="displayedColumns"></md-header-row>
+          <md-row *cdkRowDef="let row; columns: displayedColumns;"></md-row>
+        </md-table>
+      </div>
     </div>
   </md-tab>
   <md-tab>
@@ -39,7 +82,7 @@
     </ng-template>
     <h3>Add new memeber</h3>
     <div>
-      <app-member-info></app-member-info> 
+      <app-member-info></app-member-info>
     </div>
   </md-tab>
   <md-tab>
