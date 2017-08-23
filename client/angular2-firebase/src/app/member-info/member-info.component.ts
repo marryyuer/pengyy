@@ -1,7 +1,7 @@
 import { Component, Renderer2, Input, OnInit, ViewChild, Optional, Inject, forwardRef, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
-import { HomeComponent } from '../home/home.component';
+// import { HomeComponent } from '../home/home.component';
 import { MapComponent } from '../map/map.component';
 import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/database';
 import { MdDialog, MdDialogConfig, MdDialogRef, MdSnackBar, MD_DIALOG_DATA} from '@angular/material';
@@ -24,7 +24,7 @@ export class MemberInfoComponent implements OnInit {
   action: string;
   autocomplete: google.maps.places.Autocomplete;
   constructor(private fb: FormBuilder,
-              @Optional() @Inject(forwardRef(() => HomeComponent)) private homeComponent: HomeComponent,
+              // @Optional() @Inject(forwardRef(() => HomeComponent)) private homeComponent: HomeComponent,
               @Optional() @Inject(MD_DIALOG_DATA) public data: any,
               @Optional() private dialogRef: MdDialogRef<MemberInfoComponent>,
               private dialog: MdDialog,
@@ -56,7 +56,7 @@ export class MemberInfoComponent implements OnInit {
     this.autocomplete = autocomplete;
   }
 
-  placeChanged(place: any) {
+  placeChanged(event: any) {
 
   }
 

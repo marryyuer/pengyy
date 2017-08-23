@@ -18,7 +18,13 @@ export class AuthService {
   }
 
   signup(email: string, password: string): firebase.Promise<any> {
-    return this.auth.auth.createUserWithEmailAndPassword(email, password);
+    return this.auth.auth.createUserWithEmailAndPassword(email, password)
+               .then(() => {
+                const user = this.auth.auth.currentUser;
+                 user.sendEmailVerification().then(() => {
+                   alert('Please verify your account via email.');
+                 });
+               });
   }
 
   reset(email: string): firebase.Promise<any> {

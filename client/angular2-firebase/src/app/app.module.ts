@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule, MdDatepickerModule, MdNativeDateModule, MdTableModule } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk';
@@ -59,11 +59,11 @@ import { ContactComponent } from './contact/contact.component';
     ContactComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'my-app'}),
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
     NguiMapModule.forRoot({
       apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyDlXwl2JmBIyPpY0ON3ciWvJj7gFP0Sd-E&libraries=visualization,places,drawing'
     }),

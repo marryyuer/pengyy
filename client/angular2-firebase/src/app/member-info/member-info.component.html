@@ -24,7 +24,7 @@
   <br>
   <md-icon>location_on</md-icon>
   <md-input-container>
-    <input mdInput type="text" places-auto-complete (initialized$)="initialized($event)" (place_changed)="placeChanged(place)" [types]="['geocode']" placeholder="Location" formControlName="location">
+    <input mdInput type="text" places-auto-complete (initialized$)="initialized($event)" (place_changed)="placeChanged($event)" [types]="['geocode']" placeholder="Location" formControlName="location">
   </md-input-container>
   <button md-mini-fab type="button" (click)="showMap()">
     <md-icon class="md-16">location_on</md-icon>

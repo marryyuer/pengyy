@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FamilyMember } from '../model/family-member';
@@ -12,13 +12,13 @@ export class AsyncValidatorService {
     static duplicateUserName(database) {
         return function(control: FormControl): Promise<any> {
             return new Promise((resolve) => {
-                let $family = database.list('family/members', {
+                const family$ = database.list('family/members', {
                     query: {
                         orderByChild: 'name',
                         equalTo: control.value
                     }
                 });
-                $family.debounceTime(1000)
+                family$.debounceTime(1000)
                 .distinctUntilChanged()
                 .subscribe((result: FamilyMember[]) => {
                     if (result && result.length > 0) {

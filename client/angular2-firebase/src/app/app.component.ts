@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Router, RoutesRecognized, NavigationEnd } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 import { PlatformLocation } from '@angular/common';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -55,7 +56,8 @@ export class AppComponent {
   constructor(private router: Router,
               private authService: AuthService,
               private dialog: MdDialog,
-              private location: PlatformLocation) {
+              private location: PlatformLocation,
+              private http: HttpClient) {
     this.authService.authenticate().subscribe(user => {
       if (!user) {
         this.loginStatus = false;
@@ -73,6 +75,8 @@ export class AppComponent {
       console.log('PopState triggered!');
       console.log(this.location);
     });
+
+    this.http.get('assets/api/test.json').subscribe(res => console.log(res));
   }
 
   navigate(url: string) {
